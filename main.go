@@ -21,6 +21,7 @@ func main(){
 		log.Fatal("err loading .env")
 	}
 
+
 	router.Use(middleware.Logger)
 	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		r.JSON(res, http.StatusOK, map[string]interface{}{
