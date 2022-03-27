@@ -1,1 +1,1 @@
-web: bin/please
+web: bin/app
