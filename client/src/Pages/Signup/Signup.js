@@ -3,6 +3,10 @@ import "./Signup.css"
 
 export default function Signup() {
     return (
-        <div>Signup</div>
+        <div className="Signup">
+            <h1>
+                Signup
+            </h1>
+        </div>
     )
 }

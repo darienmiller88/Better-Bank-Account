@@ -1,8 +1,12 @@
 import React from 'react'
-import "./Signin.css"
+import "./Signin.scss"
 
 export default function Signin() {
     return (
-        <div>Signin</div>
+        <div className="Signup">
+            <h1>
+                Signin
+            </h1> 
+        </div>
     )
 }

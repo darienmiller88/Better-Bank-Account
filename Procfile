@@ -1,1 +1,1 @@
-web: bin/better_bank_account
+web: api/bin/better_bank_account
