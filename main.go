@@ -18,8 +18,10 @@ func main(){
 	err := godotenv.Load()
 
 	if err != nil{
-		log.Fatal("err loading .env")
+		fmt.Println("err loading .env")
+		// log.Fatal("")
 	}
+
 
 	router.Use(middleware.Logger)
 	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
