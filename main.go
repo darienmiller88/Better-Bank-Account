@@ -25,7 +25,7 @@ func main(){
 	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		r.JSON(res, http.StatusOK, map[string]interface{}{
 			"message": "hi!",
-			"number": 45,
+			"number": 456,
 		})
 	})
 
