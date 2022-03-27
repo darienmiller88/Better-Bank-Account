@@ -29,7 +29,7 @@ func main(){
 		})
 	})
 
-	fmt.Println()
+	fmt.Println("hiiii")
 	fmt.Println("running on port 8080")
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), router))	
 }
