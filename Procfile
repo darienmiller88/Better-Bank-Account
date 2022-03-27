@@ -1,1 +1,1 @@
-web: bin/app3
+web: bin/app2
