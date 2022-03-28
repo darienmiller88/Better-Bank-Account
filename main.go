@@ -8,6 +8,7 @@ import (
 
 	"Better-Bank-Account/api/controllers"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/chi/middleware"
 	"github.com/joho/godotenv"
 	"github.com/unrolled/render"
@@ -22,7 +23,9 @@ func main(){
 	if err != nil{
 		fmt.Println("err: loading .env")
 	}
+	
 	router.Use(middleware.Logger)
+	router.Use(cors.AllowAll().Handler)
 
 	//Initialize the index controller, and mount it on "api/v1"
 	index.Init()
