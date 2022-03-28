@@ -19,7 +19,6 @@ func main(){
 
 	if err != nil{
 		fmt.Println("err: loading .env")
-		// log.Fatal("")
 	}
 
 
@@ -33,5 +32,5 @@ func main(){
 
 	fmt.Println("hii from lg gram")
 	fmt.Println("running on port 8080")
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), router))	
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), router))	
 }
