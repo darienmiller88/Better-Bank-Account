@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"Better-Bank-Account/api/controllers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/joho/godotenv"
@@ -16,13 +17,17 @@ func main(){
 	router := chi.NewRouter()
 	r := render.New()
 	err := godotenv.Load()
+	index := controllers.MountController{}
 
 	if err != nil{
 		fmt.Println("err: loading .env")
 	}
-
-
 	router.Use(middleware.Logger)
+
+	//Initialize the index controller, and mount it on "api/v1"
+	index.Init()
+	router.Mount("/api/v1", index.Router)
+
 	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		r.JSON(res, http.StatusOK, map[string]interface{}{
 			"message": "hi!",
