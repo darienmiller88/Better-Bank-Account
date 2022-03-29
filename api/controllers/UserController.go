@@ -16,7 +16,7 @@ type UserController struct{
 
 func (u *UserController) Init(){
 	u.Router = chi.NewRouter()
-	u.users = []string{"darien", "denise", "dalton"}
+	u.users = []string{"ddd", "denise", "dalton"}
 	u.render = render.New()
 
 	u.Router.Get("/", func(res http.ResponseWriter, req *http.Request) {
