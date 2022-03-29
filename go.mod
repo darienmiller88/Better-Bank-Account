@@ -4,11 +4,12 @@ module Better-Bank-Account
 
 go 1.17
 
+require github.com/go-chi/cors v1.2.0
+
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-chi/chi v1.5.4 // indirect
-	github.com/go-chi/cors v1.2.0
 	github.com/go-chi/render v1.0.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
@@ -29,5 +30,6 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
 	golang.org/x/sys v0.0.0-20210525143221-35b2ab0089ea // indirect
 	golang.org/x/text v0.3.5 // indirect
+	gopkg.in/unrolled/render.v1 v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
