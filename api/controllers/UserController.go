@@ -21,7 +21,7 @@ func (u *UserController) Init(){
 
 	u.Router.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		u.render.JSON(res, http.StatusOK, map[string]interface{}{
-			"message": "Hello! From Docker 😊",
+			"message": "Hello! From ",
 			"users": u.users,
 		})
 	})
