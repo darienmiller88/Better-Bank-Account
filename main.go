@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
-	"Better-Bank-Account/api/controllers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/chi/middleware"
 	"github.com/joho/godotenv"
-	"github.com/unrolled/render"
+	"github.com/unrolled/render"	
+	
+	"Better-Bank-Account/api/controllers"
+
 )
 
 func main(){
@@ -40,5 +41,5 @@ func main(){
 
 	fmt.Println("hii from lg gram")
 	fmt.Println("running on port 8080")
-	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), router))	
+	http.ListenAndServe(":" + os.Getenv("PORT"), router)
 }
