@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"net/http"
-	
+
 	"github.com/go-chi/chi"
+	chirender "github.com/go-chi/render"
 	"github.com/unrolled/render"
 )
 
@@ -23,13 +24,19 @@ func (u *UserController) Init(){
 }
 
 func (u *UserController) GetUsers(res http.ResponseWriter, req *http.Request){
-	u.r.JSON(res, http.StatusOK, map[string]interface{}{
+	chirender.JSON(res, req, map[string]interface{}{
 		"users": u.users,
 	})
+	// u.r.JSON(res, http.StatusOK, map[string]interface{}{
+	// 	"users": u.users,
+	// })
 }
 
 func (u *UserController) GetBanks(res http.ResponseWriter, req *http.Request){
-	u.r.JSON(res, http.StatusOK, map[string]interface{}{
+	chirender.JSON(res, req, map[string]interface{}{
 		"banks": []string{"citibank", "chase", "TD"},
 	})
+	// u.r.JSON(res, http.StatusOK, map[string]interface{}{
+	// 	"banks": []string{"citibank", "chase", "TD"},
+	// })
 }
