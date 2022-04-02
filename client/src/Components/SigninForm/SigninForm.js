@@ -5,12 +5,10 @@ export default function SigninForm() {
     const [isSigningIn, setIsSigningIn] = useState(true);
 
     const signInPostRequest = () => {
-
         console.log("Signing in");
     }
 
     const signUpPostRequest = () => {
-
         console.log("Signing up");
     }
 

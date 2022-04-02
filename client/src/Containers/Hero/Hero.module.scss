@@ -1,9 +1,11 @@
+$color: white;
+
 .hero{
     display: grid;
     // justify-content: center;
     height: 100vh;
     width: 100%;
-    background-image: url(../../img/background-images-1.jpg);
+    background-image: url(../../img/background-images-5.png);
     background-size: cover;
     background-position: center; /* Center the image */
 
@@ -22,18 +24,20 @@
         grid-area: slogan;
 
         .title{
-            color: white;
+            color: $color;
             font-size: 25px;
             width: 100%;
             text-align: center;
+            text-shadow: 2px 2px black;
         }
 
         .description{
-            color: white;
+            color: $color;
             font-size: 20px;
             margin-top: 20px;
             width: 100%;
             text-align: center;
+            text-shadow: 2px 2px black;
         }
 
         button{
@@ -92,12 +96,10 @@
                 grid-area: slogan;
     
                 .title{
-                    color: white;
                     font-size: 50px;
                 }
     
                 .description{
-                    color: white;
                     font-size: 30px;
                     margin-top: 20px;
                 }
