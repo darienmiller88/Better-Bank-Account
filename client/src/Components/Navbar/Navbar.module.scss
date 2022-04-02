@@ -1,0 +1,211 @@
+@mixin button_styling($border_thickness, $padding_vertical, $padding_horizontal) {
+    margin: auto;
+    text-decoration: none;
+    color: blue;
+    background-color: white;
+    border: $border_thickness solid white;
+
+    border-radius: 10px;
+    padding: $padding_vertical $padding_horizontal;
+    
+    transition: 0.3s;
+}
+
+.autohide{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+}
+
+.scrolled-down{
+    transform:translateY(-100%); 
+    transition: all 0.2s ease-in-out;
+}
+
+.scrolled-up{
+    transform:translateY(0); 
+    transition: all 0.2s ease-in-out;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+
+    background-color: blue;
+    height: fit-content;
+
+    @media screen and (min-width: 992px) {
+        display: grid;
+        grid-template-columns: 20% auto 10%;
+    }
+}
+
+.logo_wrapper{
+    display: grid;
+    padding: 20px;
+
+    .logo{    
+        font-size: 25px;
+        font-weight: bolder;
+        margin: auto;
+        color: white;
+        
+        transition: 0.3s;
+    }
+
+    .logo:hover{
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    @media screen and (min-width: 992px) {
+        padding: 0px;
+    }
+
+    @media screen and (min-width: 1500px) {        
+        padding: 40px;
+
+        .logo{
+            font-size: 35px;
+        }
+    }
+}
+
+.links{
+    //Hide the links on smartphones and tablets
+    display: none;
+    
+    //Unhide the links on larger devices
+    @media screen and (min-width: 992px) {
+        display: flex;
+        justify-content:center;
+
+        .links_wrapper{
+            display: flex;
+            margin: auto;
+            width: fit-content;
+
+            .link{
+                margin: auto;
+                color: white;
+                padding: 25px 20px;
+
+                font-size: 20px;
+                transition: 0.3s;
+            }
+
+            .link:hover{
+                background-color: rgb(0, 110, 255);
+                cursor: pointer;
+            }
+        }
+    } 
+
+    @media screen and (min-width: 1500px) {
+        .links_wrapper{
+            .link{
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+.hamburger_menu_wrapper{
+    display: grid;
+    width: fit-content;
+
+    .icon{
+        margin: auto;
+        font-size: 40px;
+        padding: 15px;
+        color: white;
+    }
+
+    @media screen and (min-width: 992px) {
+        display: none;
+    }
+}
+
+.phone_menu{
+    display: grid;
+    position: fixed;
+
+    top: 0;    
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(100, 100, 100, 0.989);
+    transition: 0.5s;
+
+    .x_wrapper{
+        display: flex;
+        justify-content: flex-end;
+        height: fit-content;
+
+        .icon{
+            font-size: 60px;
+            padding: 10px;
+            color: white;
+        }
+    }
+    
+    .links_wrapper{
+        .link{
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            height: fit-content;  
+            width: fit-content;
+            padding: 20px;
+            margin: auto;
+        }       
+    }
+
+    .signout_wrapper{
+        display: grid;
+
+        a{
+            @include button_styling(4px, 10px, 25px);
+            
+            font-size: 30px;
+            font-weight: bold;
+        }
+    }
+}
+
+.phone_menu_slide_in{
+    right: 0;
+}
+
+.phone_menu_slide_out{
+    right: -100vw;
+}
+
+.signout_wrapper{
+    //Hide the sign out button on smart phones and tablets
+    display: none;
+
+    //Unhide them on larger devices
+    @media screen and (min-width: 992px) {
+        display: grid;
+    
+        a{
+            @include button_styling(2px, 10px, 15px)
+        }
+    
+        a:hover{
+            background-color: rgb(0, 110, 255);
+            cursor: pointer;
+        }
+    }
+
+    @media screen and (min-width: 1500px) {
+        a{
+            font-size: 30px;
+            padding: 10px 20px;
+        }
+    }
+}
