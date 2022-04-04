@@ -17,7 +17,6 @@ export default function Landing() {
             <Benefits />
             <Services />
             <Footer />
-            <div>Landing</div>
         </>
     )
 }
