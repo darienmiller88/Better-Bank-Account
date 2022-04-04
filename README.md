@@ -4,6 +4,10 @@
 ![](https://img.shields.io/badge/Golang-1.17-yellow)
 ![](https://img.shields.io/badge/MongoDB-Cloud-green)
 
+<p align="center">
+  <img src="https://api.netlify.com/api/v1/badges/bc438b2e-9f12-4bbe-987e-d36fcef20a2f/deploy-status">
+</p>
+
 ## Description
 
 Full stack application built using Golang and MongoDB in the backend, and React in the frontend. This is an app to reimagine a intro level console bank account program as a full stack web application. Features I aim to add include:

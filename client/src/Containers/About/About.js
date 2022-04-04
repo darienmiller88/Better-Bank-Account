@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./About.module.scss"
-import creditCard from "../../img/creditcard-nobg.png"
+import creditCard from "../../img/creditcard_nobg.png"
 
 export default function About() {
     return (
