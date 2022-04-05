@@ -3,10 +3,11 @@
 ![](https://img.shields.io/badge/made%20by-DarienMiller-blue)
 ![](https://img.shields.io/badge/Golang-1.17-yellow)
 ![](https://img.shields.io/badge/MongoDB-Cloud-green)
+![](https://api.netlify.com/api/v1/badges/bc438b2e-9f12-4bbe-987e-d36fcef20a2f/deploy-status)
 
-<p align="center">
+<!-- <p align="center">
   <img src="https://api.netlify.com/api/v1/badges/bc438b2e-9f12-4bbe-987e-d36fcef20a2f/deploy-status">
-</p>
+</p> -->
 
 ## Description
 
