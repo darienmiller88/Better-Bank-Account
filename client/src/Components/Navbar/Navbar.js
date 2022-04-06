@@ -7,11 +7,13 @@ export default function Navbar() {
 
     useEffect(() => {
         document.addEventListener("DOMContentLoaded", () => {
-            const el_autohide = document.querySelector('.autohide');
+            const el_autohide = document.querySelector(styles.autohide);
+            console.log("hide: ", el_autohide);
             
             if(el_autohide){
                 var last_scroll_top = 0;
                 window.addEventListener('scroll', function() {
+                    console.log("scrolling");
                     let scroll_top = window.scrollY;
                     if(scroll_top < last_scroll_top) {
                         el_autohide.classList.remove('scrolled-down');

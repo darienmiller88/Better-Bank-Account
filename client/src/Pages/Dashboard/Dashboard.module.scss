@@ -1,0 +1,57 @@
+$bright_blue: rgb(0, 150, 255);
+
+.dashboard{
+    z-index: -2;
+
+    .logo_nav{
+        display: grid;
+        align-items: center;
+        height: fit-content;
+
+        .logo_wrapper{
+            display: grid;
+            height: fit-content;
+            width: fit-content;
+            //border: 2px red solid;
+
+            img{
+                margin: auto;
+                height: 40px;            
+                width: 85px;
+                padding: 20px 20px;
+            }
+        }
+        
+        @media screen and (min-width: 992px) {
+            .logo_wrapper{
+                img{
+                    padding: 20px 40px;
+                }
+                
+                img:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        
+        @media screen and (min-width: 1500px) {
+            .logo_wrapper{
+                img{
+                    height: 80px;
+                    width: 150px;
+                    padding: 40px 40px;
+                }
+            }
+        }
+    }
+
+    .welcome{
+        margin-top: 40px;
+        margin-left: 20px;
+        font-weight: bold;
+    }
+
+    .last_sign_in{
+        margin-left: 20px;
+    }
+}

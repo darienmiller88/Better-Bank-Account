@@ -1,0 +1,100 @@
+$bright_blue: rgb(0, 150, 255);
+
+.mini_nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+    background-color: $bright_blue;
+    color: white;
+
+    .hamburger_menu{
+        font-size: 40px;
+        padding: 10px 20px;
+    }
+
+    .links{
+        display: none;
+    }
+
+    .signout{
+        display: flex;
+        font-size: 25px;
+        padding: 10px 20px;
+        transition: 0.3s;
+        border-left: 1px white solid;
+
+        .link_icon{
+            font-size: 20px;
+        }
+    }
+
+    .signout:hover{
+        cursor: pointer;
+        background-color: blue;
+    }
+
+    @media screen and (min-width: 992px) {
+        .hamburger_menu{
+            display: none;
+        }
+
+        .links{
+            display: flex;
+            height: 100%;
+            margin-left: 40px;
+    
+            .link{
+                font-size: 25px;
+                padding: 10px 20px;
+                transition: 0.3s;
+                
+                .link_icon{
+                    padding: 0px 15px;
+                }
+            }
+    
+            .open_account{
+                display: flex;
+                justify-content: space-between;
+            }
+    
+            .link:hover{
+                cursor: pointer;
+                background-color: blue;
+            }
+        }
+    }
+}
+
+.phone_menu{
+    background-color: white;
+    height: fit-content;
+    z-index: 2;
+
+    .link{
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        transition: 0.3s;
+        border-bottom: 2px solid grey;
+
+        .link_icon{
+            font-size: 20px;
+            color: $bright_blue;
+        }
+    }
+
+    .open_account{
+        text-align: center;
+        font-weight: bold;
+        border-bottom: 2px solid grey;
+        color: $bright_blue;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+    .open_account:active, .link:active{
+        background-color: grayscale($color: $bright_blue);
+    }
+}
