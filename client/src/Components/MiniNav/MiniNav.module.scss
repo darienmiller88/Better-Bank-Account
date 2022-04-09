@@ -1,4 +1,5 @@
 $bright_blue: rgb(0, 150, 255);
+$navbar_fontsize: 20px;
 
 .mini_nav{
     display: flex;
@@ -19,7 +20,7 @@ $bright_blue: rgb(0, 150, 255);
 
     .signout{
         display: flex;
-        font-size: 25px;
+        font-size: $navbar_fontsize;
         padding: 10px 20px;
         transition: 0.3s;
         border-left: 1px white solid;
@@ -45,7 +46,7 @@ $bright_blue: rgb(0, 150, 255);
             margin-left: 40px;
     
             .link{
-                font-size: 25px;
+                font-size: $navbar_fontsize;
                 padding: 10px 20px;
                 transition: 0.3s;
                 

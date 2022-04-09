@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import styles from "./MiniNav.module.scss"
 
 import { BiMenu, BiX } from "react-icons/bi"
-import { BsChevronRight } from "react-icons/bs"
+import { BsChevronBarRight } from "react-icons/bs"
+import { FaAngleRight } from "react-icons/fa"
 
 export default function MiniNav() {
     const [isPhoneMenuActive, setIsPhoneMenuActive] = useState(false)
@@ -30,7 +31,7 @@ export default function MiniNav() {
                     </div>
                     <div className={`${styles.link} ${styles.open_account}`}>
                         Open an Account
-                        <BsChevronRight className={styles.link_icon} />
+                        <FaAngleRight className={styles.link_icon} />
                     </div>
                 </div>
                 
@@ -45,15 +46,15 @@ export default function MiniNav() {
                 <div className={styles.phone_menu}>
                     <div className={styles.link}>
                         Accounts
-                        <BsChevronRight className={styles.link_icon} />
+                        <FaAngleRight className={styles.link_icon} />
                     </div>
                     <div className={styles.link}>
                         Transfers
-                        <BsChevronRight className={styles.link_icon} />
+                        <FaAngleRight className={styles.link_icon} />
                     </div>
                     <div className={styles.link}>
                         Profile
-                        <BsChevronRight className={styles.link_icon} />
+                        <FaAngleRight className={styles.link_icon} />
                     </div>
                     <div className={styles.open_account}>
                         Open an Account
