@@ -1,0 +1,57 @@
+$bright_blue: rgb(0, 150, 255);
+
+.account_label{
+    display: grid;
+    grid-template-columns: 50% auto;
+    background-color: $bright_blue;
+    color: white;
+    height: fit-content;
+    width: 95%;
+    margin: auto;
+
+    .account_type_wrapper{
+        display: flex;
+        align-items: center;
+        padding: 30px;
+
+        .up_icon{
+            padding-right: 10px;
+            transition: 0.2s;
+        }
+    }
+
+    .total{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0px 15px;
+
+        .cash{
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        cursor: pointer;
+
+        .total{
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            .cash{
+                padding: 0px 10px;
+            }
+        }
+    }
+}
+
+.account_label:active{
+    cursor: pointer;
+
+    .account_type_wrapper{
+        .up_icon{
+            transform: rotate(180deg);
+        }
+    }
+}

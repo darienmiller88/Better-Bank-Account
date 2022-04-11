@@ -1,0 +1,37 @@
+.bank_resource{
+    width: 90%;
+    border: 1px black solid;
+    margin: auto;
+    margin-bottom: 20px;
+    $paddingValue: 20px;
+
+    .resource_name{
+        background-color: #888888;
+        padding: $paddingValue;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    .resource_description_wrapper{
+        .resource_subtitle{
+            padding: $paddingValue;
+        }
+
+        .resource_description{
+            padding: $paddingValue;
+        }
+
+        .apply_now_wrapper{
+            display: flex;
+            padding: $paddingValue;
+            color: var(--bright-blue);
+
+            .icon{
+                padding: 0px 10px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        width: 95%;
+    }
+}

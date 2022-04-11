@@ -3,6 +3,8 @@ import styles from "./Account.module.scss"
 
 export default function Account() {
     return (
-        <div>Account</div>
+        <div className={styles.account}>
+            Account
+        </div>
     )
 }

@@ -53,113 +53,48 @@ $bright_blue: rgb(0, 150, 255);
 
     .last_sign_in{
         margin-left: 20px;
+        margin-bottom: 20px;
     }
 
-    .button_group{
-        display: grid;
-        grid-template-columns: 50% auto;
-        margin: auto;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        //border: 2px solid rebeccapurple;
-        width: 95%;
-
-        button{
-            //height: 80px;
-            font-size: 18px;
-            padding: 30px 0px;
-            transition: 0.3s;
-            color: $bright_blue;
-            border: none;
-        }
-
-        .active_button{
-            border-bottom: 5px $bright_blue solid;
-            box-shadow: 3px 3px 8px 2px #888888;
-            background-color: white;
-            z-index: 2;
+    .phone_menu{ 
+        .button_group{
+            display: grid;
+            grid-template-columns: 50% auto;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 95%;
+    
+            button{
+                font-size: 18px;
+                padding: 30px 0px;
+                transition: 0.3s;
+                color: $bright_blue;
+                border: none;
+            }
+    
+            .active_button{
+                border-bottom: 5px $bright_blue solid;
+                box-shadow: 3px 3px 8px 2px #888888;
+                background-color: white;
+                z-index: 2;
+            }
         }
 
         @media screen and (min-width: 992px) {
-            // Hide button group on larger devices
             display: none;
         }
     }
 
-    .account_label{
-        display: grid;
-        grid-template-columns: 50% auto;
-        background-color: $bright_blue;
-        color: white;
-        height: fit-content;
-        width: 95%;
-        margin: auto;
-        margin-bottom: 5px;
+    .desktop_view{
+        //Hide the display on mobile devices...
+        display: none;
 
-        .account_type_wrapper{
-            display: flex;
-            align-items: center;
-            padding: 30px;
-
-            .up_icon{
-                padding-right: 10px;
-                transition: 0.2s;
-            }
-        }
-
-        .total{
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0px 15px;
-
-            .cash{
-                font-weight: bold;
-            }
-        }
-    }
-
-    .account_label:active{
-        cursor: pointer;
-
-        .account_type_wrapper{
-            .up_icon{
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    .bank_resource{
-        width: 90%;
-        border: 1px black solid;
-        margin: auto;
-        margin-bottom: 20px;
-        $paddingValue: 20px;
-
-        .resource_name{
-            background-color: #888888;
-            padding: $paddingValue;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-
-        .resource_description_wrapper{
-            .resource_subtitle{
-                padding: $paddingValue;
-            }
-
-            .resource_description{
-                padding: $paddingValue;
-            }
-
-            .apply_now_wrapper{
-                display: flex;
-                padding: $paddingValue;
-                color: $bright_blue;
-
-                .icon{
-                    padding: 0px 10px;
-                }
-            }
+        //And unhide it on Desktops
+        @media screen and (min-width: 992px) {
+            display: grid;
+            grid-template-columns: 70% auto;
+            margin: auto;
         }
     }
 }

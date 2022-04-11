@@ -1,6 +1,10 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rubik:wght@500&display=swap');
 
+:root{
+  --bright-blue: rgb(0, 150, 255)
+}
+
 body{
     font-family: 'Open Sans', sans-serif;
     font-family: 'Rubik', sans-serif;
