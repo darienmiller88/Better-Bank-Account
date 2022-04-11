@@ -1,5 +1,75 @@
 .account{
-    border: 2px solid red;
+    display: grid;
+    grid-template-areas: "name" "funds" "options";
+    border: 1px solid black;
     width: 95%;
     margin: auto;
+
+    .account_name_wrapper{
+        display: grid;
+        border: 2px green solid;
+    }
+
+    .account_name{
+        display: flex;
+        align-items: center;
+        grid-area: name;
+
+        padding: 0px 20px;
+        font-weight: bold;  
+        
+        @media screen and (min-width: 768px) {
+            font-size: 20px;   
+            padding: 10px 20px;
+        }
+    }
+    
+    .options{
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        grid-area: options;
+        margin: auto;
+
+        :nth-child(1), :nth-child(2){
+            border-right: 1px solid black;
+        }
+
+        .option{
+            text-decoration: underline;
+            padding: 20px 20px;
+        }
+
+        .option:hover{
+            cursor: pointer;
+        }
+    }
+
+    .funds_wrapper{
+        grid-area: funds;
+
+        .available_now_wrapper{
+            margin: 0px 20px;
+
+            .available_balance{
+                padding: 20px 0px;
+            }
+        }
+
+        .on_deposit_wrapper{
+            .on_deposit_balance{
+                padding: 20px 0px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            display: flex;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        justify-content: space-between;
+        grid-template-areas: "name options"
+                             "funds funds";
+    }
 }

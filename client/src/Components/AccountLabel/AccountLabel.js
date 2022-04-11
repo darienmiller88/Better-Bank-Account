@@ -5,7 +5,7 @@ import styles from "./AccountLabel.module.scss"
 
 export default function AccountLabel({ accountType, amount, onClick, isLabelClicked }) {
     return (
-        <>
+        <div className={styles.account_label_wrapper}>
             <div className={styles.account_label} onClick={onClick}>
                 <div className={styles.account_type_wrapper}>
                     {
@@ -27,6 +27,6 @@ export default function AccountLabel({ accountType, amount, onClick, isLabelClic
             <div className={styles.accounts}>
                 <Account />
             </div>
-        </>
+        </div>
     )
 }

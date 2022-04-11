@@ -1,5 +1,9 @@
 $bright_blue: rgb(0, 150, 255);
 
+.account_label_wrapper{
+    margin-bottom: 10px;
+}
+
 .account_label{
     display: grid;
     grid-template-columns: 50% auto;
