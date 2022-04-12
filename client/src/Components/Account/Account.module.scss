@@ -15,25 +15,22 @@
         align-items: center;
         grid-area: name;
 
-        padding: 0px 20px;
+        padding: 20px 20px;
         font-weight: bold;  
+        font-size: 20px;
         
         @media screen and (min-width: 768px) {
-            font-size: 20px;   
-            padding: 10px 20px;
+            font-size: 25px;   
         }
     }
     
     .options{
         display: flex;
-        width: fit-content;
         align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
         grid-area: options;
         margin: auto;
-
-        :nth-child(1), :nth-child(2){
-            border-right: 1px solid black;
-        }
 
         .option{
             text-decoration: underline;
@@ -42,6 +39,16 @@
 
         .option:hover{
             cursor: pointer;
+            background-color: azure;
+        }
+
+        @media screen and (min-width:768px) {
+            width: fit-content;
+            font-size: 20px;
+        }
+
+        @media screen and (min-width: 992px) {
+            font-size: 18px;
         }
     }
 
@@ -66,6 +73,14 @@
 
         @media screen and (min-width: 768px) {
             display: flex;
+
+            .available_now_wrapper{
+                font-size: 20px;
+            }
+
+            .on_deposit_wrapper{
+                font-size: 20px;
+            }
         }
     }
 

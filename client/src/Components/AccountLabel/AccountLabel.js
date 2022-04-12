@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import Account from '../Account/Account'
 import styles from "./AccountLabel.module.scss"
 
-export default function AccountLabel({ accountType, amount, onClick, isLabelClicked }) {
+export default function AccountLabel({ accountType, amount, accountLabelOnClick, isLabelClicked }) {
+    const [isShowingAccounts, setIsShowingAccounts] = useState(true)
+
+    const toggleAccounts = () => {        
+        setIsShowingAccounts(!isShowingAccounts)
+        accountLabelOnClick()
+    }
+
     return (
         <div className={styles.account_label_wrapper}>
-            <div className={styles.account_label} onClick={onClick}>
+            <div className={styles.account_label} onClick={toggleAccounts}>
                 <div className={styles.account_type_wrapper}>
                     {
                         isLabelClicked
@@ -24,9 +31,19 @@ export default function AccountLabel({ accountType, amount, onClick, isLabelClic
                     <div className={styles.cash}>${amount}</div>
                 </div>
             </div>
-            <div className={styles.accounts}>
-                <Account />
-            </div>
+            {
+                isLabelClicked
+                ?
+                <div className={styles.accounts}>
+                    <Account
+                        accountName={"Checkings-4327"}
+                        balance={amount}
+                    />
+                </div>
+                :
+                null
+            }
+            
         </div>
     )
 }

@@ -30,13 +30,13 @@ export default function Dashboard() {
                         <AccountLabel 
                             accountType={"Checkings"} 
                             amount={136.12.toLocaleString("en-US")} 
-                            onClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
+                            accountLabelOnClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
                             isLabelClicked={isCheckingsLabelClicked}
                         />
                         <AccountLabel 
                             accountType={"Savings"}   
                             amount={19651.14.toLocaleString("en-US")} 
-                            onClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
+                            accountLabelOnClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
                             isLabelClicked={isSavingsLabelClicked}
                         />
                     </>
@@ -57,13 +57,13 @@ export default function Dashboard() {
                     <AccountLabel 
                         accountType={"Checkings"} 
                         amount={136.12.toLocaleString("en-US")} 
-                        onClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
+                        accountLabelOnClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
                         isLabelClicked={isCheckingsLabelClicked}
                     />
                     <AccountLabel 
                         accountType={"Savings"}   
                         amount={19651.14.toLocaleString("en-US")} 
-                        onClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
+                        accountLabelOnClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
                         isLabelClicked={isSavingsLabelClicked}
                     />
                 </div>
@@ -86,6 +86,7 @@ export default function Dashboard() {
                 <MiniNav />
                 <div className={styles.welcome}>Welcome, DARIEN</div>
                 <div className={styles.last_sign_in}>Last sign on: Apr. 06, 2022 (5:14 AM ET) from computer.</div>
+                <button className={styles.open_new_account}>Open New Account</button>
 
                 {/* For phone and tablet only */}
                 <PhoneView />

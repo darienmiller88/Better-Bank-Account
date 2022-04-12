@@ -24,7 +24,7 @@ export default function MiniNav() {
                 }
                 <div className={styles.links}>
                     <div className={styles.link}>
-                        Account
+                        Accounts
                     </div>
                     <div className={styles.link}>
                         Transfers
