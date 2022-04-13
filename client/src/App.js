@@ -1,4 +1,5 @@
-import './App.css';
+import './App.scss';
+
 import Signin  from "./Pages/Signin/Signin"
 import Signup from "./Pages/Signup/Signup"
 import Dashboard from './Pages/Dashboard/Dashboard';

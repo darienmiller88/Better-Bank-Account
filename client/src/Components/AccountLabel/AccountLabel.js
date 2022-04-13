@@ -43,7 +43,6 @@ export default function AccountLabel({ accountType, amount, accountLabelOnClick,
                 :
                 null
             }
-            
         </div>
     )
 }

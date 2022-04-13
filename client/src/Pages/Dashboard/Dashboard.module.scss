@@ -16,7 +16,7 @@ $medium-spring-green: rgb(0, 250, 154);
             width: fit-content;
             //border: 2px red solid;
 
-            img{
+            img{       
                 margin: auto;
                 height: 40px;            
                 width: 85px;
@@ -102,7 +102,7 @@ $medium-spring-green: rgb(0, 250, 154);
                 border-bottom: 5px $bright_blue solid;
                 box-shadow: 3px 3px 8px 2px #888888;
                 background-color: white;
-                z-index: 2;
+                z-index: 1;
             }
         }
 

@@ -5,11 +5,13 @@ import MiniNav from '../../Components/MiniNav/MiniNav'
 import Footer from "../../Containers/Footer/Footer"
 import AccountLabel from '../../Components/AccountLabel/AccountLabel'
 import BankResource from '../../Components/BankResource/BankResource'
+import VerticalModal from '../../Components/Modal/Modal'
 
 export default function Dashboard() {
     const [isFirstButtonActive, setIsFirstButtonActive] = useState(false)
     const [isCheckingsLabelClicked, setIsCheckingsLabelClicked] = useState(false)
     const [isSavingsLabelClicked, setIsSavingsLabelClicked] = useState(false)
+    const [modalShow, setModalShow] = useState(true);
     
     const PhoneView = () => {
         return (
@@ -86,7 +88,14 @@ export default function Dashboard() {
                 <MiniNav />
                 <div className={styles.welcome}>Welcome, DARIEN</div>
                 <div className={styles.last_sign_in}>Last sign on: Apr. 06, 2022 (5:14 AM ET) from computer.</div>
-                <button className={styles.open_new_account}>Open New Account</button>
+                <button className={styles.open_new_account} onClick={() => setModalShow(true)}>
+                    Open New Account
+                </button>
+
+                <VerticalModal 
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                />
 
                 {/* For phone and tablet only */}
                 <PhoneView />
