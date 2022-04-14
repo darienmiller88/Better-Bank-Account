@@ -11,7 +11,7 @@ export default function Dashboard() {
     const [isFirstButtonActive, setIsFirstButtonActive] = useState(false)
     const [isCheckingsLabelClicked, setIsCheckingsLabelClicked] = useState(false)
     const [isSavingsLabelClicked, setIsSavingsLabelClicked] = useState(false)
-    const [modalShow, setModalShow] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
     
     const PhoneView = () => {
         return (
@@ -77,6 +77,16 @@ export default function Dashboard() {
         )
     }
 
+    const openModal = () => {
+        document.querySelector("body").style.overflow = "hidden"
+        setModalShow(true)
+    }
+
+    const closeModal = () => {
+        document.querySelector("body").style.overflow = 'visible';
+        setModalShow(false)
+    }
+
     return (
         <>
             <div className={styles.dashboard}>
@@ -88,13 +98,13 @@ export default function Dashboard() {
                 <MiniNav />
                 <div className={styles.welcome}>Welcome, DARIEN</div>
                 <div className={styles.last_sign_in}>Last sign on: Apr. 06, 2022 (5:14 AM ET) from computer.</div>
-                <button className={styles.open_new_account} onClick={() => setModalShow(true)}>
+                <button className={styles.open_new_account} onClick={openModal}>
                     Open New Account
                 </button>
 
                 <VerticalModal 
                     show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    onHide={closeModal}
                 />
 
                 {/* For phone and tablet only */}
