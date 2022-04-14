@@ -30,8 +30,8 @@ export default function MiniNav() {
                         Transfers
                     </div>
                     <div className={`${styles.link} ${styles.open_account}`}>
-                        Open an Account
-                        <FaAngleRight className={styles.link_icon} />
+                        Profile
+                        {/* <FaAngleRight className={styles.link_icon} /> */}
                     </div>
                 </div>
                 

@@ -5,7 +5,7 @@ import MiniNav from '../../Components/MiniNav/MiniNav'
 import Footer from "../../Containers/Footer/Footer"
 import AccountLabel from '../../Components/AccountLabel/AccountLabel'
 import BankResource from '../../Components/BankResource/BankResource'
-import VerticalModal from '../../Components/Modal/Modal'
+import Modal from '../../Components/Modal/Modal'
 
 export default function Dashboard() {
     const [isFirstButtonActive, setIsFirstButtonActive] = useState(false)
@@ -102,7 +102,7 @@ export default function Dashboard() {
                     Open New Account
                 </button>
 
-                <VerticalModal 
+                <Modal 
                     show={modalShow}
                     onHide={closeModal}
                 />
