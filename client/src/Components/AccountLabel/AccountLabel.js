@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import Account from '../Account/Account'
 import styles from "./AccountLabel.module.scss"
+import { useSelector } from "react-redux"
 
 export default function AccountLabel({ accountType, amount, accountLabelOnClick, isLabelClicked }) {
     const [isShowingAccounts, setIsShowingAccounts] = useState(true)
+    const accounts = useSelector(state => state.accounts)
 
     const toggleAccounts = () => {        
         setIsShowingAccounts(!isShowingAccounts)
@@ -26,19 +28,28 @@ export default function AccountLabel({ accountType, amount, accountLabelOnClick,
                     <div className={styles.account_type}>{accountType}</div>
                 </div>
                 
-                <div className={styles.total}>
+                {/* <div className={styles.total}>
                     <div className={styles.total_label}>Total on Deposit</div>
                     <div className={styles.cash}>${amount}</div>
-                </div>
+                </div> */}
             </div>
             {
                 isLabelClicked
                 ?
                 <div className={styles.accounts}>
-                    <Account
-                        accountName={"Checkings-4327"}
-                        balance={amount}
-                    />
+                    {
+                        accounts.map((account, i)=> {
+                            return account.accountType === accountType ? 
+                                <Account
+                                    accountName={account.accountName}
+                                    availableAmount={account.availableAmount}
+                                    onDepositAmount={account.onDepositAmount}
+                                    key={i}
+                                />
+                                :
+                                null
+                        })
+                    }
                 </div>
                 :
                 null

@@ -1,0 +1,30 @@
+.phone_view{ 
+    .button_group{
+        display: grid;
+        grid-template-columns: 50% auto;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        width: 95%;
+        $bright_blue: rgb(0, 150, 255);
+
+        button{
+            font-size: 18px;
+            padding: 30px 0px;
+            transition: 0.3s;
+            color: $bright_blue;
+            border: none;
+        }
+
+        .active_button{
+            border-bottom: 5px $bright_blue solid;
+            box-shadow: 3px 3px 8px 2px #888888;
+            background-color: white;
+            z-index: 1;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        display: none;
+    }
+}

@@ -1,0 +1,11 @@
+.desktop_view{
+    //Hide the display on mobile devices...
+    display: none;
+
+    //And unhide it on Desktops
+    @media screen and (min-width: 992px) {
+        display: grid;
+        grid-template-columns: 75% auto;
+        margin: auto;
+    }
+}

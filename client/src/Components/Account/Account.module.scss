@@ -4,6 +4,7 @@
     border: 1px solid black;
     width: 95%;
     margin: auto;
+    $bright_blue: rgb(0, 150, 255);
 
     .account_name_wrapper{
         display: grid;
@@ -34,12 +35,17 @@
 
         .option{
             text-decoration: underline;
-            padding: 20px 20px;
-        }
+            padding: 20px 20px;        
+            transition: 0.3s;
 
-        .option:hover{
-            cursor: pointer;
-            background-color: azure;
+            &:hover{
+                cursor: pointer;
+                background-color: rgba($color: $bright_blue, $alpha: 0.3);
+            }
+
+            &:active{
+                background-color: $bright_blue;
+            }
         }
 
         @media screen and (min-width:768px) {

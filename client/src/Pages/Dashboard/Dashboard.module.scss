@@ -14,7 +14,6 @@ $medium-spring-green: rgb(0, 250, 154);
             display: grid;
             height: fit-content;
             width: fit-content;
-            //border: 2px red solid;
 
             img{       
                 margin: auto;
@@ -68,58 +67,53 @@ $medium-spring-green: rgb(0, 250, 154);
         color: $bright_blue;
         background-color: white;
         transition: 0.3s;
+
+        &:hover{
+            cursor: pointer;
+            background-color: $bright_blue;
+            color: white;
+        }
+
+        &:active{
+            transform: translateY(-5px);
+            background-color: blue;
+        }
     }
 
-    .open_new_account:hover{
-        cursor: pointer;
-        background-color: $bright_blue;
-        color: white;
-    }
-
-    .open_new_account:active{
-        transform: translateY(-5px);
-        background-color: blue;
-    }
-
-    .phone_menu{ 
-        .button_group{
-            display: grid;
-            grid-template-columns: 50% auto;
+    form{
+        .input_group{
+            width: fit-content;
             margin: auto;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            width: 95%;
-    
-            button{
-                font-size: 18px;
-                padding: 30px 0px;
-                transition: 0.3s;
-                color: $bright_blue;
+            margin-bottom: 10px;
+            font-size: 20px;
+
+            input{
+                border: 2px solid black;
+                border-radius: 5px;
+                font-size: 15px;
+            }
+
+            select{
+                font-size: 15px;
+            }
+        }
+
+        .submit{
+            margin: auto;
+            width: fit-content;
+
+            input{
+                background-color: $bright_blue;
                 border: none;
+                color: white;
+                font-size: 15px;
+                padding: 10px;
+                border-radius: 5px;
+
+                &:hover{
+                    cursor: pointer;
+                }
             }
-    
-            .active_button{
-                border-bottom: 5px $bright_blue solid;
-                box-shadow: 3px 3px 8px 2px #888888;
-                background-color: white;
-                z-index: 1;
-            }
-        }
-
-        @media screen and (min-width: 992px) {
-            display: none;
-        }
-    }
-
-    .desktop_view{
-        //Hide the display on mobile devices...
-        display: none;
-
-        //And unhide it on Desktops
-        @media screen and (min-width: 992px) {
-            display: grid;
-            grid-template-columns: 75% auto;
-            margin: auto;
         }
     }
 }

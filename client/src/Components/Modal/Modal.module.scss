@@ -39,6 +39,10 @@ $border_radius: 5px;
             border-top-left-radius: $border_radius;
             border-top-right-radius: $border_radius;
 
+            .header{
+                font-size: 25px;
+            }
+
             .close{
                 transition: 0.5s;
                 font-size: 40px;
@@ -89,7 +93,7 @@ $border_radius: 5px;
 
     @media screen and (min-width: 992px) {
         .modal_body{
-            width: 60vw;
+            width: 50vw;
         }
     }
 }
