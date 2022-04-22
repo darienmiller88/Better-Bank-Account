@@ -12,7 +12,7 @@ export default function WithdrawAccountForm({ closeModal }) {
     const withdrawMoney = (e) => {
         e.preventDefault()
         const formData = new FormData(formRef.current)
-        const withdrawAmount = formData.get("withdraw")
+        const withdrawAmount = parseFloat(formData.get("withdraw"))
 
         dispatch({type: actionTypes.WITHDRAW, payload: {withdrawAmount, currentAccount}})
 

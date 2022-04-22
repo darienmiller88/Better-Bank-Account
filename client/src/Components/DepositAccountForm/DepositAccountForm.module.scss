@@ -1,0 +1,26 @@
+.deposit_form{
+    text-align: center;
+    $bright_blue: rgb(0, 150, 255);
+
+    .deposit_header{
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .input_group{
+        margin-bottom: 20px;
+
+        input{
+            border: 1px black solid;
+            border-radius: 5px;
+        }
+        
+        @media screen and (min-width: 992px) {
+            font-size: 20px;
+
+            input{
+                font-size: 20px;
+            }
+        }
+    }
+}

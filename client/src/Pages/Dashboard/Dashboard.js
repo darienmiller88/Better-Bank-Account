@@ -9,6 +9,7 @@ import PhoneView from "../../Components/PhoneView/PhoneView"
 import NewAccountForm from "../../Components/NewAccountForm/NewAccountForm"
 import DeleteAccountForm from '../../Components/DeleteAccountForm/DeleteAccountForm'
 import WithdrawAccountForm from "../../Components/WithdrawAccountForm/WithdrawAccountForm"
+import DepositAccountForm from '../../Components/DepositAccountForm/DepositAccountForm'
 
 export default function Dashboard() {
     const [showNewAccountModal, setShowNewAccountModal] = useState(false);
@@ -64,6 +65,14 @@ export default function Dashboard() {
                     onHide={() => closeModal(setShowWithdrawModal)}
                     modalContent={<WithdrawAccountForm closeModal={() => closeModal(setShowWithdrawModal)}/>}
                     modalHeader={"Withdraw"}
+                />
+
+                {/* Modal to Deposit into an account */}
+                <Modal 
+                    show={showDepositModal}
+                    onHide={() => closeModal(setShowDepositModal)}
+                    modalContent={<DepositAccountForm closeModal={() => closeModal(setShowDepositModal)}/>}
+                    modalHeader={"Deposit"}
                 />
 
                 {/* For phone and tablet only */}

@@ -28,7 +28,7 @@ export default function PhoneView({openDepositModal, openWithdrawModal, openTran
                 <>
                     <AccountLabel 
                         accountType={checkings} 
-                        amount={getTotalDeposit(accounts, checkings).toLocaleString("en-US")} 
+                        // amount={getTotalDeposit(accounts, checkings).toLocaleString("en-US")} 
                         accountLabelOnClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
                         isLabelClicked={isCheckingsLabelClicked}
                         openModalFunctions={{
@@ -39,7 +39,7 @@ export default function PhoneView({openDepositModal, openWithdrawModal, openTran
                     />
                     <AccountLabel 
                         accountType={savings}   
-                        amount={getTotalDeposit(accounts, savings).toLocaleString("en-US")} 
+                        // amount={getTotalDeposit(accounts, savings).toLocaleString("en-US")} 
                         accountLabelOnClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
                         isLabelClicked={isSavingsLabelClicked}
                         openModalFunctions={{
