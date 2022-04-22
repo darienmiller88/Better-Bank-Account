@@ -2,6 +2,7 @@ import React from 'react'
 import styles from "./DeleteAccountForm.module.scss"
 import { useDispatch, useSelector } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
+import FormButton from "../FormButton/FormButton"
 
 export default function DeleteAccountForm({ closeModal }) {
     const dispatch = useDispatch()
@@ -18,7 +19,7 @@ export default function DeleteAccountForm({ closeModal }) {
                 Are you sure you want to <span>delete</span> this account? 
                 Please transfer your funds elsewhere.
             </div>
-            <button onClick={deleteAccount}>Delete</button>
+            <FormButton buttonText={"Delete"} onClick={deleteAccount}/>
         </div>
     )
 }

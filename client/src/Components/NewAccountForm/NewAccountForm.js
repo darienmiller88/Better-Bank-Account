@@ -36,7 +36,7 @@ export default function NewAccountForm({ closeModal }) {
 
             <div className={styles.input_group}>
                 <label>Initial deposit ($)</label><br />
-                <input type="number" placeholder='0.0' defaultValue={0.0} step="0.01" name="deposit"/>
+                <input type="number" placeholder='0.0' defaultValue={0.0} min="0" step="0.01" name="deposit"/>
             </div>
             <div className={styles.input_group}>
                 <label>Account Type: </label>
