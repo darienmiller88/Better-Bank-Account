@@ -5,12 +5,12 @@ export default function Modal({show, onHide, modalHeader, modalContent}) {
     const modalRef = useRef(null)
 
     useEffect(() => {
-        window.onclick = function(event) {
-            if (event.target === modalRef.current) {
+        window.onclick = e => {
+            if (e.target === modalRef.current) {
                 onHide()
             }
-          }
-    }, [onHide])
+        }
+    }, [show])
 
     return (
         <div className={`${styles.modal} ${show ? styles.slidein : styles.slideout}`} ref={modalRef}>

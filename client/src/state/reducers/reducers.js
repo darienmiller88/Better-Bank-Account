@@ -20,3 +20,13 @@ export const accountsReducer = (state = [], action) => {
             return state
     }
 }
+
+export const accountClickedReducer = (state = "", action) => {
+    switch (action.type) {
+        case actionTypes.CHANGE_NAME: 
+            state = action.payload
+            return state
+        default:
+            return state
+    }
+}

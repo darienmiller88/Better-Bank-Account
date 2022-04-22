@@ -3,4 +3,5 @@ export const actionTypes = {
     WITHDRAW: "withdraw",
     ADD_ACCOUNT: "add",
     DELETE_ACCOUNT: "delete",
+    CHANGE_NAME: "change"
 }

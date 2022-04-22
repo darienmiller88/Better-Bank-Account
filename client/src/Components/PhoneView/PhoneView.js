@@ -5,7 +5,7 @@ import BankResource from '../BankResource/BankResource'
 import { getTotalDeposit, checkings, savings } from "../GetTotalDeposit/GetTotalDeposit"
 import { useSelector } from "react-redux"
 
-export default function PhoneView() {
+export default function PhoneView({openDepositModal, openWithdrawModal, openTransferModal, openDeleteModal}) {
     const [isFirstButtonActive, setIsFirstButtonActive] = useState(true)
     const [isCheckingsLabelClicked, setIsCheckingsLabelClicked] = useState(false)
     const [isSavingsLabelClicked, setIsSavingsLabelClicked] = useState(false)
@@ -31,12 +31,22 @@ export default function PhoneView() {
                         amount={getTotalDeposit(accounts, checkings).toLocaleString("en-US")} 
                         accountLabelOnClick={() => setIsCheckingsLabelClicked(!isCheckingsLabelClicked)}
                         isLabelClicked={isCheckingsLabelClicked}
+                        openModalFunctions={{
+                            openDeleteModal,
+                            openDepositModal,
+                            openWithdrawModal
+                        }}
                     />
                     <AccountLabel 
                         accountType={savings}   
                         amount={getTotalDeposit(accounts, savings).toLocaleString("en-US")} 
                         accountLabelOnClick={() => setIsSavingsLabelClicked(!isSavingsLabelClicked)}
                         isLabelClicked={isSavingsLabelClicked}
+                        openModalFunctions={{
+                            openDeleteModal,
+                            openDepositModal,
+                            openWithdrawModal
+                        }}
                     />
                 </>
                 :

@@ -4,7 +4,7 @@ import Account from '../Account/Account'
 import styles from "./AccountLabel.module.scss"
 import { useSelector } from "react-redux"
 
-export default function AccountLabel({ accountType, amount, accountLabelOnClick, isLabelClicked }) {
+export default function AccountLabel({ accountType, amount, accountLabelOnClick, isLabelClicked, openModalFunctions }) {
     const [isShowingAccounts, setIsShowingAccounts] = useState(true)
     const accounts = useSelector(state => state.accounts)
 
@@ -44,6 +44,7 @@ export default function AccountLabel({ accountType, amount, accountLabelOnClick,
                                     accountName={account.accountName}
                                     availableAmount={account.availableAmount}
                                     onDepositAmount={account.onDepositAmount}
+                                    openModalFunctions={openModalFunctions}
                                     key={i}
                                 />
                                 :

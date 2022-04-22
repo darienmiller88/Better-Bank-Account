@@ -1,24 +1,30 @@
 import React, { useRef } from 'react'
 import styles from "./NewAccountForm.module.scss"
+import { useDispatch } from "react-redux"
+import { actionTypes } from "../../state/reducers/actionTypes"
 
-export default function NewAccountForm() {
+export default function NewAccountForm({ closeModal }) {
     const formRef = useRef(useRef)
+    const dispatch = useDispatch()
 
     const createAccount = (e) => { 
         e.preventDefault()
 
         const form = new FormData(formRef.current)
         const accountName = form.get("account_name")
-        const initialDeposit = form.get("deposit")
+        const availableAmount = form.get("deposit")
+        const onDepositAmount = availableAmount
         const accountType = form.get("account_type")
         const result = {
             accountName,
-            initialDeposit,
+            availableAmount,
+            onDepositAmount,
             accountType,
         }
-        
-        console.log("form:", result);
+
+        dispatch({type: actionTypes.ADD_ACCOUNT, payload: result})
         formRef.current.reset()
+        closeModal()
     }
 
     return (
