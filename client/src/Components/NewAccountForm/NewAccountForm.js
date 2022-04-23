@@ -12,7 +12,7 @@ export default function NewAccountForm({ closeModal }) {
 
         const form = new FormData(formRef.current)
         const accountName = form.get("account_name")
-        const availableAmount = form.get("deposit")
+        const availableAmount = parseFloat(form.get("deposit"))
         const onDepositAmount = availableAmount
         const accountType = form.get("account_type")
         const result = {

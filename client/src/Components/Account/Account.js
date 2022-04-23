@@ -7,6 +7,7 @@ export default function Account({accountName, availableAmount, onDepositAmount, 
     const dispatch = useDispatch()
 
     const updateCurrentAccount = (openModal) => {
+        console.log("name:", accountName);
         dispatch({type: actionTypes.CHANGE_NAME, payload: accountName})
         openModal()
     }

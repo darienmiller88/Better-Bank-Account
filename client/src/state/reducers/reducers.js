@@ -5,7 +5,7 @@ export const accountsReducer = (state = [
         accountName: "firstAccount",
         availableAmount: 120.78,
         onDepositAmount: 120.78,
-        accountType: "Checkings"
+        accountType: "Savings"
     }
 ], action) => {
     switch (action.type) {
@@ -24,7 +24,7 @@ export const accountsReducer = (state = [
            
         case actionTypes.DEPOSIT: {
             const indexOfAccount = state.findIndex(account => account.accountName === action.payload.currentAccount)
-            state[indexOfAccount].availableAmount += action.payload.depositAmount      
+            state[indexOfAccount].availableAmount += action.payload.depositAmount 
             state[indexOfAccount].availableAmount = parseFloat(state[indexOfAccount].availableAmount.toFixed(2))    
             state[indexOfAccount].onDepositAmount = state[indexOfAccount].availableAmount
 
