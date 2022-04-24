@@ -3,7 +3,7 @@ $color: white;
 .hero{
     display: grid;
     // justify-content: center;
-    height: 100vh;
+    height: 120vh;
     width: 100%;
     background-image: url(../../img/background-images-5.png);
     background-size: cover;
@@ -16,7 +16,7 @@ $color: white;
         grid-template-areas: "slogan" "form";
         margin-top: 100px;
         height: 85%;
-        width: 90%;
+        width: 95%;
     }
 
     .slogan{
@@ -58,7 +58,6 @@ $color: white;
     .form_wrapper{
         display: flex;
         grid-area: form;
-        // border: 2px solid yellow;
     }
 
     @media screen and (min-width: 768px) {

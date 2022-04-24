@@ -39,7 +39,7 @@
 
     @media screen and (min-width: 992px) {
         display: grid;
-        grid-template-columns: 20% auto 10%;
+        grid-template-columns: 15% auto 10%;
     }
 }
 
@@ -54,6 +54,10 @@
         color: white;
         
         transition: 0.3s;
+        img{
+            height: 40px;
+            width: 75px;
+        }
     }
 
     .logo:hover{
@@ -69,7 +73,10 @@
         padding: 40px;
 
         .logo{
-            font-size: 35px;
+            img{
+                height: 80px;
+                width: 120px;
+            }
         }
     }
 }

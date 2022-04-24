@@ -2,15 +2,11 @@ import React, { useState } from 'react'
 import styles from "./DesktopView.module.scss"
 import AccountLabel from '../AccountLabel/AccountLabel'
 import BankResource from '../BankResource/BankResource'
-import { useSelector } from "react-redux"
 import { checkings, savings } from "../GetTotalDeposit/GetTotalDeposit"
 
 export default function DesktopView({openWithdrawModal, openDepositModal, openTransferModal, openDeleteModal}) {
     const [isCheckingsLabelClicked, setIsCheckingsLabelClicked] = useState(false)
     const [isSavingsLabelClicked, setIsSavingsLabelClicked] = useState(false)
-    const accounts = useSelector(state => state.accounts)
-
-    console.log("len:", accounts.length);
 
     return (
         <div className={styles.desktop_view}>

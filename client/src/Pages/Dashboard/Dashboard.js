@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from "./Dashboard.module.scss"
-import logo from "../../img/logo2-nobg.png"
+import logo from "../../img/mdlogo.png"
 import MiniNav from '../../Components/MiniNav/MiniNav'
 import Footer from "../../Containers/Footer/Footer"
 import Modal from '../../Components/Modal/Modal'

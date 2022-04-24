@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from "./Hero.module.scss"
-import SigninForm from '../../Components/SigninForm/SigninForm'
+import SigninForm from '../../Components/RegistrationForms/RegistrationForms'
 
 export default function Hero() {
 

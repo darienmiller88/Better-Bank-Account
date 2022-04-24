@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { BiMenu, BiX } from "react-icons/bi"
 import styles from "./Navbar.module.scss"
+import logo from "../../img/mdlogo.png"
 
 export default function Navbar() {
     const phoneMenuRef = useRef(null)
@@ -66,7 +67,8 @@ export default function Navbar() {
         <div className={`${styles.navbar} ${styles.autohide}`}>
             <div className={styles.logo_wrapper}>
                 <div className={styles.logo}>
-                    Miller Banking
+                    <img src={logo} alt="logo" />
+                    {/* Miller Banking */}
                 </div>
             </div>    
 
