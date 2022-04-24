@@ -14,13 +14,15 @@ type UserController struct{
 	render   *render.Render
 }
 
+type json map[string]interface{} 
+
 func (u *UserController) Init(){
 	u.Router = chi.NewRouter()
 	u.users = []string{"ddd", "denise", "dalton"}
 	u.render = render.New()
 
 	u.Router.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		u.render.JSON(res, http.StatusOK, map[string]interface{}{
+		u.render.JSON(res, http.StatusOK, json{
 			"message": "Hello! From ",
 			"users": u.users,
 		})

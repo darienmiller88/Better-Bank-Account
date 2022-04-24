@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from "./Hero.module.scss"
-import SigninForm from '../../Components/RegistrationForms/RegistrationForms'
+import Form from '../../Components/RegistrationForms/RegistrationForms'
 
 export default function Hero() {
 
@@ -22,7 +22,7 @@ export default function Hero() {
                 </div>
 
                 <div className={styles.form_wrapper}>
-                    <SigninForm />
+                    <Form />
                 </div>
             </div>
         

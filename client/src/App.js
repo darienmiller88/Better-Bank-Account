@@ -1,7 +1,4 @@
 import './App.scss';
-
-import Signin  from "./Pages/Signin/Signin"
-import Signup from "./Pages/Signup/Signup"
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Landing from './Pages/Landing/Landing';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
