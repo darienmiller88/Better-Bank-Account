@@ -21,7 +21,7 @@ func main(){
 	router.Mount("/api/v1", index.Router)
 	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		render.JSON(res, req, map[string]interface{}{
-			"number from": 500,
+			"number from": 600,
 		})
 	})
 
