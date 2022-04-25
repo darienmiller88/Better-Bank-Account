@@ -13,22 +13,7 @@ export default function SigninForm() {
         console.log("Signing in");
     }
 
-    const signUpPostRequest = async (e) => {
-        e.preventDefault()
-
-        const formData = new FormData(signupFormRef.current)
-        const username = formData.get("username")
-        const password = formData.get("password")
-        const data = {
-            username, 
-            password
-        }
-
-        const response = await axios.post(`${base}/api/v1/users`, data)
-        console.log("response:", response.data);
-        
-        signupFormRef.current.reset()
-    }
+   
 
     const FormInput = () => {
         return (
@@ -46,6 +31,23 @@ export default function SigninForm() {
     }
 
     const SignupForm = () => {
+        const signUpPostRequest = async (e) => {
+            e.preventDefault()
+    
+            const formData = new FormData(signupFormRef.current)
+            const username = formData.get("username")
+            const password = formData.get("password")
+            const data = {
+                username, 
+                password
+            }
+    
+            const response = await axios.post(`${base}/api/v1/users`, data)
+            console.log("response:", response.data);
+            
+            signupFormRef.current.reset()
+        }
+
         return(
             <form className={`${styles.registration} ${styles.signup}`} onSubmit={signUpPostRequest} ref={signupFormRef}>
                 <div className={styles.title}>
