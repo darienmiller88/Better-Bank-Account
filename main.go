@@ -5,25 +5,30 @@ import (
 	"net/http"
 	"os"
 
+	"Better-Bank-Account/api/routes"
+
 	"github.com/go-chi/chi"
-	"github.com/go-chi/render"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
-	"Better-Bank-Account/api/controllers"
+	"github.com/kamva/mgm/v3"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main(){
+func main() {
 	godotenv.Load()
 	router := chi.NewRouter()
-	index := controllers.Index{}
+	index := routes.Index{}
+	err := mgm.SetDefaultConfig(nil, "BankProgram", options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+
+	if err != nil {
+		panic(err)
+	}
 
 	index.Init()
-
+	router.Use(cors.AllowAll().Handler)
+	router.Use(middleware.Logger)
 	router.Mount("/api/v1", index.Router)
-	router.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		render.JSON(res, req, map[string]interface{}{
-			"number from": 800,
-		})
-	})
 
 	fmt.Println("running on port:", os.Getenv("PORT"))
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), router)

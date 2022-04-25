@@ -5,7 +5,7 @@ import(
 )
 
 type User struct{
-	mgm.DefaultModel
-	Name     string `json:"name"     bson:"name"`
-	Password string `json:"password" bson:"password"`
+	mgm.DefaultModel `bson:",inline"`
+	Name     string  `json:"name"     bson:"name"`
+	Password string  `json:"password" bson:"password"`
 }
