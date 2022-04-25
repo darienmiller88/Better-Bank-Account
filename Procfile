@@ -1,1 +1,1 @@
-web: bin/deploy2
+web: bin/deploy
