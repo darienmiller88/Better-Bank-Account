@@ -1,16 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styles from "./RegistrationForms.module.scss"
 import googleicon from "../../img/google_icon-nobg.png"
+import { base } from "../BaseUrl/BaseUrl"
+import axios from "axios"
 
 export default function SigninForm() {
     const [isSigningIn, setIsSigningIn] = useState(true);
+    const signupFormRef = useRef(null)
+    const signinFormRef = useRef(null)
 
-    const signInPostRequest = () => {
+    const signInPostRequest = (e) => {
         console.log("Signing in");
     }
 
-    const signUpPostRequest = () => {
-        console.log("Signing up");
+    const signUpPostRequest = async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData(signupFormRef.current)
+        const username = formData.get("username")
+        const password = formData.get("password")
+        const data = {
+            username, 
+            password
+        }
+
+        const response = await axios.post(`${base}/api/v1/users`, data)
+        console.log("response:", response.data);
+        
+        signupFormRef.current.reset()
     }
 
     const FormInput = () => {
@@ -30,7 +47,7 @@ export default function SigninForm() {
 
     const SignupForm = () => {
         return(
-            <div className={`${styles.registration} ${styles.signup}`}>
+            <form className={`${styles.registration} ${styles.signup}`} onSubmit={signUpPostRequest} ref={signupFormRef}>
                 <div className={styles.title}>
                     Sign up
                 </div>
@@ -39,11 +56,11 @@ export default function SigninForm() {
                     Already have an account? <b onClick={() => setIsSigningIn(!isSigningIn)}> Sign in </b>
                 </div>
                 <div className={styles.submit}>
-                    <button className={styles.submit_form_button} onClick={signUpPostRequest}>
+                    <button className={styles.submit_form_button}>
                         Sign up
                     </button>
                 </div>
-            </div>
+            </form>
         )
     }
 
