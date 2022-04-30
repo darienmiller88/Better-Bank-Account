@@ -16,35 +16,36 @@ $darker_google_blue: rgb(35,85,250);
 }
 
 .signin{
-    height: 85%;
+    height: fit-content;
+    padding: 20px 0px;
+    // @media screen and (min-width: 768px) {
+    //     height: 85%;
+    // }
 
-    @media screen and (min-width: 768px) {
-        height: 80%;
-    }
-
-    @media screen and (min-width: 992px){
-        height: 90%;
-    }
+    // @media screen and (min-width: 992px){
+    //     height: 90%;
+    // }
    
-    @media screen and (min-width: 1500px){
-        height: 70%;
-    }
+    // @media screen and (min-width: 1500px){
+    //     height: 70%;
+    // }
 }
 
 .signup{
-    height: 70%;
+    height: fit-content;
+    padding: 20px 0px;
 
-    @media screen and (min-width: 768px) {
-        height: 65%;
-    }
+    // @media screen and (min-width: 768px) {
+    //     height: 85%;
+    // }
 
-    @media screen and (min-width: 992px){
-        height: 75%;
-    }
+    // @media screen and (min-width: 992px){
+    //     height: 75%;
+    // }
 
-    @media screen and (min-width: 1500px){
-        height: 50%;
-    }
+    // @media screen and (min-width: 1500px){
+    //     height: 50%;
+    // }
 }
 
 .registration{
@@ -80,7 +81,7 @@ $darker_google_blue: rgb(35,85,250);
 
     .signin_redirect{
         text-align: center;
-        margin: 30px 0px;
+        margin: 15px 0px;
         
         b{  
             text-decoration: underline;        
@@ -186,12 +187,12 @@ $darker_google_blue: rgb(35,85,250);
             font-size: 45px;
             text-align: center;
         }
-
-        .form_label{
-            font-size: 28px;
-        }
-
+       
         .input{
+            .form_label{
+                font-size: 28px;
+            }
+
             input{
                 font-size: 28px;
             }
@@ -316,6 +317,10 @@ $darker_google_blue: rgb(35,85,250);
                 width: 40px;
                 height: 40px;
             }
+        }
+
+        .signin_redirect{
+            font-size: 30px;
         }
 
         .submit, .create_account{

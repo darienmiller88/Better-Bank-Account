@@ -1,2 +1,4 @@
-client
-tmp
+/client
+/tmp
+Procfile
+/bin

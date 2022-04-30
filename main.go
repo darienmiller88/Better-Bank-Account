@@ -26,7 +26,11 @@ func main() {
 	}
 
 	index.Init()
-	router.Use(cors.AllowAll().Handler)
+	newCors := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowCredentials: true,
+	})
+	router.Use(newCors.Handler)
 	router.Use(middleware.Logger)
 	router.Mount("/api/v1", index.Router)
 

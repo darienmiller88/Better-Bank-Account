@@ -36,9 +36,19 @@ export const accountsReducer = (state = [
     }
 }
 
+export const userReducer = (state = "", action) => {
+    switch (action.type) {
+        case actionTypes.UPDATE_USERNAME: 
+            state = action.payload
+            return state
+        default:
+            return state
+    }
+}
+
 export const accountClickedReducer = (state = "", action) => {
     switch (action.type) {
-        case actionTypes.CHANGE_NAME: 
+        case actionTypes.UPDATE_ACCOUNT_NAME: 
             state = action.payload
             return state
         default:

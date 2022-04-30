@@ -10,13 +10,14 @@ import NewAccountForm from "../../Components/NewAccountForm/NewAccountForm"
 import DeleteAccountForm from '../../Components/DeleteAccountForm/DeleteAccountForm'
 import WithdrawAccountForm from "../../Components/WithdrawAccountForm/WithdrawAccountForm"
 import DepositAccountForm from '../../Components/DepositAccountForm/DepositAccountForm'
+import { useSelector } from "react-redux"
 
 export default function Dashboard() {
     const [showNewAccountModal, setShowNewAccountModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showWithdrawModal, setShowWithdrawModal] = useState(false)
     const [showDepositModal, setShowDepositModal] = useState(false)
-
+    const username = useSelector(state => state.user)
 
     const openModal = (setModalShow) => {
         document.querySelector("body").style.overflow = "hidden"
@@ -37,7 +38,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <MiniNav />
-                <div className={styles.welcome}>Welcome, DARIEN</div>
+                <div className={styles.welcome}>Welcome, {username}</div>
                 <div className={styles.last_sign_in}>Last sign on: Apr. 06, 2022 (5:14 AM ET) from computer.</div>
                 <button className={styles.open_new_account} onClick={() => openModal(setShowNewAccountModal)}>
                     Open New Account

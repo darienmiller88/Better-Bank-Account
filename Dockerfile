@@ -6,18 +6,8 @@ FROM golang:1.17-alpine
 # Afterwards, create the working directory into the image
 WORKDIR /app
 
-# Copy over the mod and sum files over into the image before downloading the project dependencies.
-COPY go.mod ./
-COPY go.sum ./
-
-# Run the go command to download the dependencies.
-RUN go mod download
-
-# Copy over the main.go file, as well as the api folder into the /app directory in the image.
-COPY main.go ./
-COPY /api ./
-
-ENV PORT=8080
+# Copy all of the files over into the image
+COPY . /app
 
 # Create the binary needed to run the go program.
 RUN go build -o /deploy

@@ -3,7 +3,8 @@ $color: white;
 .hero{
     display: grid;
     // justify-content: center;
-    height: 120vh;
+    height: fit-content;
+    padding: 40px 0px;
     width: 100%;
     background-image: url(../../img/background-images-5.png);
     background-size: cover;
@@ -12,16 +13,18 @@ $color: white;
     .wrapper{
         display: grid;
         margin: auto;
-        grid-template-rows: 40% auto;
+        // grid-template-rows: 40% auto;
         grid-template-areas: "slogan" "form";
         margin-top: 100px;
-        height: 85%;
-        width: 95%;
+        height: fit-content;
+        width: 100%;
+        // border: 2px solid red;
     }
 
     .slogan{
         display: grid;
         grid-area: slogan;
+        padding: 20px 0px;
 
         .title{
             color: $color;
@@ -58,6 +61,8 @@ $color: white;
     .form_wrapper{
         display: flex;
         grid-area: form;
+        // border: 2px solid yellow;
+
     }
 
     @media screen and (min-width: 768px) {
@@ -87,7 +92,7 @@ $color: white;
             grid-template-columns: 60% auto;
             grid-template-areas: "slogan form";
             margin-top: 100px;
-            height: 70%;
+            // height: 70%;
             width: 90%;
     
             .slogan{
