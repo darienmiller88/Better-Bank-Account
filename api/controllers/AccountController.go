@@ -28,7 +28,7 @@ const (
 ) 
 
 func GetAccountsByUsername(res http.ResponseWriter, req *http.Request){
-	username := chi.URLParam(req, "username")
+	username := chi.URLParam(req, usernameURLParam)
 	user, err := validateUser(username)
 	
 	if err != nil{
@@ -40,7 +40,7 @@ func GetAccountsByUsername(res http.ResponseWriter, req *http.Request){
 }
 
 func GetAccountByUsername(res http.ResponseWriter, req *http.Request){
-	username := chi.URLParam(req, "username")
+	username := chi.URLParam(req, usernameURLParam)
 	user, err := validateUser(username)
 
 	if err != nil{
@@ -48,7 +48,7 @@ func GetAccountByUsername(res http.ResponseWriter, req *http.Request){
 		return
 	}
 
-	accountID := chi.URLParam(req, "accountid")
+	accountID := chi.URLParam(req, accountidURLParam)
 	account, _, err := validateAccountId(accountID, user)
 
 	if err != nil{
@@ -61,7 +61,7 @@ func GetAccountByUsername(res http.ResponseWriter, req *http.Request){
 
 func AddAccount(res http.ResponseWriter, req *http.Request){
 	account := models.Account{}
-	username := chi.URLParam(req, "username")
+	username := chi.URLParam(req, usernameURLParam)
 
 	if err := render.DecodeJSON(req.Body, &account); err != nil{
 		r.JSON(res, http.StatusBadRequest, err)
@@ -101,7 +101,7 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 
 func DeleteAccount(res http.ResponseWriter, req *http.Request){
 	username  := chi.URLParam(req, usernameURLParam)
-	accountID := chi.URLParam(req, usernameURLParam)
+	accountID := chi.URLParam(req, accountidURLParam)
 	user, err := validateUser(username)
 
 	if err != nil{
