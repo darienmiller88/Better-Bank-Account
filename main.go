@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	"github.com/kamva/mgm/v3"
+
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -29,10 +30,10 @@ func main() {
 	newCors := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000", "https://millerbank.netlify.app"},
 		AllowCredentials: true,
-	})
+	}) 
 	router.Use(newCors.Handler)
 	router.Use(middleware.Logger)
-	router.Mount("/api/v1", index.Router)
+	router.Mount("/api/v1", index.Router) 
 
 	fmt.Println("running on port:", os.Getenv("PORT"))
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), router)

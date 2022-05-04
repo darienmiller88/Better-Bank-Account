@@ -24,7 +24,7 @@ type jsonBody map[string]interface{}
 var r *render.Render
 var tokenAuth *jwtauth.JWTAuth
 
-const sesionLen int = 600 //600 seconds or 10 minutes
+const sessionLen int = 600 //600 seconds or 10 minutes
 
 func init() {
 	r = render.New()
@@ -136,17 +136,14 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
-		HttpOnly: true,
-		Value:    "jbk",
 		MaxAge:  -1,
-		SameSite: http.SameSiteStrictMode,
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
 }
 
 func setCookie(user models.User, res http.ResponseWriter) {
-	expiry := time.Now().Add(time.Duration(sesionLen) * time.Second)
+	expiry := time.Now().Add(time.Duration(sessionLen) * time.Second)
 	tokenAuth = jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
 	_, tokenString, _ := tokenAuth.Encode(jsonBody{
 		"user": user.Username,

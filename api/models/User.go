@@ -12,10 +12,11 @@ import (
 )
 
 type User struct{
-	mgm.DefaultModel  `bson:",inline"`
-	Username   string `json:"username"    bson:"username"`
-	Password   string `json:"password"    bson:"password"`
-	RememberMe bool   `json:"remember_me" bson:"remember_me"`
+	mgm.DefaultModel       `bson:",inline"`
+	Username     string    `json:"username"    bson:"username"`
+	Password     string    `json:"password"    bson:"password"`
+	RememberMe   bool      `json:"remember_me" bson:"remember_me"`
+	BankAccounts []Account `json:"accounts"    bson:"accounts"`
 }
 
 const passwordMin int = 6
@@ -25,6 +26,7 @@ func (u User) Validate() error {
 	return validation.ValidateStruct(&u,
 		validation.Field(&u.Username, validation.Required, validation.Length(5, 20), is.Alphanumeric),
 		validation.Field(&u.Password, validation.Required, validation.By(trimPasswordCheck), validation.By(validatePassword)),
+		validation.Field(&u.BankAccounts, validation.By(validateAccounts)),
 	)
 }
 
@@ -45,6 +47,18 @@ func trimPasswordCheck(password interface{}) error{
 
 	if trimmedPassword := strings.Trim(pass, " "); len(trimmedPassword) < passwordMin || len(trimmedPassword) > passwordMax{
 		return errors.New(fmt.Sprintf("Password must be between %d and %d characters.", passwordMin, passwordMax))
+	}
+
+	return nil
+}
+
+func validateAccounts(accountsToValidate interface{}) error{
+	accounts, _ := accountsToValidate.([]Account)
+
+	for _, account := range accounts{
+		if err := account.Validate(); err != nil{
+			return err
+		}
 	}
 
 	return nil

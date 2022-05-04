@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "./Dashboard.module.scss"
 import logo from "../../img/mdlogo.png"
 import MiniNav from '../../Components/MiniNav/MiniNav'
@@ -10,7 +10,9 @@ import NewAccountForm from "../../Components/NewAccountForm/NewAccountForm"
 import DeleteAccountForm from '../../Components/DeleteAccountForm/DeleteAccountForm'
 import WithdrawAccountForm from "../../Components/WithdrawAccountForm/WithdrawAccountForm"
 import DepositAccountForm from '../../Components/DepositAccountForm/DepositAccountForm'
+import { base } from "../../Components/BaseUrl/BaseUrl"
 import { useSelector } from "react-redux"
+import axios from "axios"
 
 export default function Dashboard() {
     const [showNewAccountModal, setShowNewAccountModal] = useState(false);
@@ -18,6 +20,10 @@ export default function Dashboard() {
     const [showWithdrawModal, setShowWithdrawModal] = useState(false)
     const [showDepositModal, setShowDepositModal] = useState(false)
     const username = useSelector(state => state.user)
+
+    useEffect(() => {
+      axios.get(`${base}/`)
+    }, [])
 
     const openModal = (setModalShow) => {
         document.querySelector("body").style.overflow = "hidden"

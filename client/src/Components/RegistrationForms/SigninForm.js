@@ -1,11 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import styles from "./RegistrationForms.module.scss"
 import googleicon from "../../img/google_icon-nobg.png"
 import axios from 'axios'
 import { base } from "../BaseUrl/BaseUrl"
+import { useDispatch } from "react-redux"
+import { actionTypes } from "../../state/reducers/actionTypes"
+
 
 export default function SigninForm({ changeToSignup }) {
     const signinFormRef = useRef(null)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [isSigninError, setIsSigninError] = useState(false)
+    const [signinError, setSigninError] = useState(false)
 
     const signInPostRequest = async (e) => {
         e.preventDefault()
@@ -21,15 +29,18 @@ export default function SigninForm({ changeToSignup }) {
         }
 
         try {
-            const response = await axios.post(`${base}/api/v1/users/signin`, data)            
-            console.log("data:", response.data);
+            await axios.post(`${base}/signin`, data) 
+            dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})    
+            navigate("/dashboard")     
+            signinFormRef.current.reset()   
         } catch (error) {
-            const errorJSON = JSON.parse(error.request.response)
+            console.log("err:", error.response.data);
 
-            console.log("err:", errorJSON, "status:", error.request.status)
+            if(error.response.data.errInvalidLogin){
+                setSigninError(error.response.data.errInvalidLogin)
+                setIsSigninError(true)
+            }
         }
-
-        signinFormRef.current.reset()
     }
 
     return(
@@ -39,11 +50,22 @@ export default function SigninForm({ changeToSignup }) {
             </div>
             <div className={styles.input}>
                 <label className={styles.form_label}>Username</label><br/>
-                <input id="username" name="username" minLength="5" maxLength="15"/>
+                <input id="username" name="username" maxLength="15"/>
             </div>
+
+            {
+                isSigninError
+                ?
+                <div className={styles.signup_error}>
+                    { signinError }
+                </div>
+                :
+                null
+            }
+
             <div className={styles.input}>
                 <label className={styles.form_label}>Password</label><br/>
-                <input id="password" name="password" type="password"  minLength="5" maxLength="50"/>
+                <input id="password" name="password" type="password" maxLength="50"/>
             </div>   
             <div className={styles.checkbox}>
                 <input type="checkbox" id="remember_me" name="remember_me"/>

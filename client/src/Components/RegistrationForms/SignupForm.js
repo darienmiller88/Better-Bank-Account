@@ -27,18 +27,22 @@ export default function SignupForm({ changeToSignin }) {
         }
 
         try {
-            await axios.post(`${base}/api/v1/users/signup`, data)  
+            await axios.post(`${base}/signup`, data)  
             dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})  
             navigate("/dashboard")        
-            // console.log("response:", response.data);
-
+            signupFormRef.current.reset()
         } catch (error) {
-            console.log("err:", error.response.data.errUsernameTaken);
-            setUsernameErrorMessage(error.response.data.errUsernameTaken)
-            setIsUsernameError(true)
+            console.log("err:", error.response.data);
+
+            if(error.response.data.errUsernameTaken || error.response.data.username){
+                setUsernameErrorMessage(error.response.data.errUsernameTaken)
+                setIsUsernameError(true)
+            } 
+            if(error.response.data.password){
+                setPasswordErrorMessage(error.response.data.password)
+                setIsPasswordError(true)
+            }
         }
-        
-        signupFormRef.current.reset()
     }
 
     return(
@@ -48,7 +52,7 @@ export default function SignupForm({ changeToSignin }) {
             </div>
             <div className={styles.input}>
                 <label className={styles.form_label}>Username</label><br/>
-                <input id="username" name="username" minLength="6" maxLength="15"/>
+                <input id="username" name="username" minLength="6" maxLength="15" required/>
             </div>
 
             {
@@ -63,7 +67,7 @@ export default function SignupForm({ changeToSignin }) {
             
             <div className={styles.input}>
                 <label className={styles.form_label}>Password</label><br/>
-                <input id="password" name="password" type="password"  minLength="6" maxLength="50"/>
+                <input id="password" name="password" type="password"  minLength="6" maxLength="50" required/>
             </div>    
 
             {

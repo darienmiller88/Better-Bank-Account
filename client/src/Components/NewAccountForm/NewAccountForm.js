@@ -11,15 +11,15 @@ export default function NewAccountForm({ closeModal }) {
         e.preventDefault()
 
         const form = new FormData(formRef.current)
-        const accountName = form.get("account_name")
-        const availableAmount = parseFloat(form.get("deposit"))
-        const onDepositAmount = availableAmount
-        const accountType = form.get("account_type")
+        const account_name = form.get("account_name")
+        const available_balance = parseFloat(form.get("deposit"))
+        const ondeposit_balance = available_balance
+        const account_type = form.get("account_type")
         const result = {
-            accountName,
-            availableAmount,
-            onDepositAmount,
-            accountType,
+            account_name,
+            available_balance,
+            ondeposit_balance,
+            account_type,
         }
 
         dispatch({type: actionTypes.ADD_ACCOUNT, payload: result})
