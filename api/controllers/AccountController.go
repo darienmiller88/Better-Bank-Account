@@ -28,26 +28,13 @@ const (
 ) 
 
 func GetAccountsByUsername(res http.ResponseWriter, req *http.Request){
-	username := chi.URLParam(req, usernameURLParam)
-	user, err := validateUser(username)
-	
-	if err != nil{
-		r.JSON(res, http.StatusNotFound, jsonBody{userNotFoundError: err.Error()})
-		return
-	}
+	user := req.Context().Value("user").(models.User)//Retrieve the user pass through the second middleware.
 
 	r.JSON(res, http.StatusOK, user.BankAccounts)
 }
 
 func GetAccountByUsername(res http.ResponseWriter, req *http.Request){
-	username := chi.URLParam(req, usernameURLParam)
-	user, err := validateUser(username)
-
-	if err != nil{
-		r.JSON(res, http.StatusNotFound, jsonBody{userNotFoundError: err.Error()})
-		return
-	}
-
+	user := req.Context().Value("user").(models.User)
 	accountID := chi.URLParam(req, accountidURLParam)
 	account, _, err := validateAccountId(accountID, user)
 
@@ -61,7 +48,6 @@ func GetAccountByUsername(res http.ResponseWriter, req *http.Request){
 
 func AddAccount(res http.ResponseWriter, req *http.Request){
 	account := models.Account{}
-	username := chi.URLParam(req, usernameURLParam)
 
 	if err := render.DecodeJSON(req.Body, &account); err != nil{
 		r.JSON(res, http.StatusBadRequest, err)
@@ -73,11 +59,7 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 		return
 	}
 
-	user, err := validateUser(username)
-	if err != nil{
-		r.JSON(res, http.StatusNotFound, jsonBody{userNotFoundError: err.Error()})
-		return
-	}
+	user := req.Context().Value("user").(models.User)
 
 	//After ensuring the user exists, prevent them from having duplicate bank account names.
 	if err := validateAccountName(account.AccountName, user.BankAccounts); err != nil{
@@ -91,7 +73,7 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 	account.UpdatedAt = time.Now()
 	result, _        := mgm.Coll(&models.User{}).UpdateOne(
 		mgm.Ctx(), 
-		bson.M{usernameURLParam: username}, 
+		bson.M{"username": user.Username}, 
 		bson.M{"$push": bson.M{"accounts": account}},
 	)
 
@@ -100,23 +82,17 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 
 
 func DeleteAccount(res http.ResponseWriter, req *http.Request){
-	username  := chi.URLParam(req, usernameURLParam)
 	accountID := chi.URLParam(req, accountidURLParam)
-	user, err := validateUser(username)
+	user := req.Context().Value("user").(models.User)
 
-	if err != nil{
-		r.JSON(res, http.StatusNotFound, jsonBody{userNotFoundError: err.Error()})
-		return
-	}
-
-	_, _, err = validateAccountId(accountID, user)
+	_, _, err := validateAccountId(accountID, user)
 	if err != nil{
 		r.JSON(res, http.StatusNotFound, jsonBody{invalidAccountIdError: err.Error()})
 		return
 	}
 
 	result, _ := mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), 
-		bson.M{"username": username}, 
+		bson.M{"username": user.Username}, 
 		bson.M{
 			"$pull": bson.M{ "accounts": bson.M{"id": accountID}},
 		},
@@ -146,14 +122,7 @@ func handleAccountTransactions(transactionType string, res http.ResponseWriter, 
 		return
 	}
 
-	username := chi.URLParam(req, usernameURLParam)
-	user, err := validateUser(username)
-
-	if err != nil{
-		r.JSON(res, http.StatusNotFound, jsonBody{userNotFoundError: err.Error()})
-		return
-	}
-
+	user := req.Context().Value("user").(models.User)
 	accountID := chi.URLParam(req, accountidURLParam)
 	account, accountindex, err := validateAccountId(accountID, user)
 
@@ -177,22 +146,11 @@ func handleAccountTransactions(transactionType string, res http.ResponseWriter, 
 	user.BankAccounts[accountindex] = account
 
 	mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), 
-		bson.M{"username": username}, 
+		bson.M{"username": user.Username}, 
 		bson.M{"$set": user},
 	)
 
 	r.JSON(res, http.StatusOK, account)
-}
-
-func validateUser(username string) (models.User, error){
-	user := models.User{}
-	err := mgm.Coll(&models.User{}).FindOne(mgm.Ctx(), bson.M{"username": username}).Decode(&user)
-
-	if err != nil{
-		return models.User{}, err
-	}
-
-	return user, nil
 }
 
 func validateAccountName(accountName string, accounts []models.Account) error {

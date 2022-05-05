@@ -23,7 +23,6 @@ type jsonBody map[string]interface{}
 
 var r *render.Render
 var tokenAuth *jwtauth.JWTAuth
-
 const sessionLen int = 600 //600 seconds or 10 minutes
 
 func init() {
@@ -47,20 +46,8 @@ func GetUsers(res http.ResponseWriter, req *http.Request) {
 	r.JSON(res, http.StatusOK, users)
 }
 
-func GetUserByID(res http.ResponseWriter, req *http.Request) {
-	id := chi.URLParam(req, "id")
-	user := models.User{}
-
-	if err := mgm.Coll(&models.User{}).FindByID(id, &user); err != nil {
-		r.JSON(res, http.StatusNotFound, err.Error())
-		return
-	}
-
-	r.JSON(res, http.StatusOK, user)
-}
-
-func GetTest(res http.ResponseWriter, req *http.Request){
-	r.JSON(res, http.StatusOK, jsonBody{"test": []string{"one", "two", "three"}})
+func GetUserByUsername(res http.ResponseWriter, req *http.Request) {
+	r.JSON(res, http.StatusOK, req.Context().Value("user"))
 }
 
 func Signup(res http.ResponseWriter, req *http.Request) {
@@ -146,7 +133,7 @@ func setCookie(user models.User, res http.ResponseWriter) {
 	expiry := time.Now().Add(time.Duration(sessionLen) * time.Second)
 	tokenAuth = jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
 	_, tokenString, _ := tokenAuth.Encode(jsonBody{
-		"user": user.Username,
+		"username": user.Username,
 		"exp":  expiry.Unix(),
 	})
 
