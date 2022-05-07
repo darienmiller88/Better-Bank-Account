@@ -153,7 +153,7 @@ func setCookie(user models.User, res http.ResponseWriter) {
 		HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
-		SameSite: http.SameSiteStrictMode,
+		// SameSite: http.SameSiteStrictMode,
 		Secure:   true,
 	})
 }
