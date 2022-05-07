@@ -1,13 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from "./NewAccountForm.module.scss"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
+import { accountApi } from "../API/API"
+import { useNavigate } from "react-router-dom";
 
 export default function NewAccountForm({ closeModal }) {
     const formRef = useRef(useRef)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const username = useSelector(state => state.username)
+    const [newAccountError, setNewAccountError] = useState("")
+    const [isAccountError, setIsAccountError] = useState(false)
 
-    const createAccount = (e) => { 
+    const createAccount = async (e) => { 
         e.preventDefault()
 
         const form = new FormData(formRef.current)
@@ -22,9 +28,22 @@ export default function NewAccountForm({ closeModal }) {
             account_type,
         }
 
-        dispatch({type: actionTypes.ADD_ACCOUNT, payload: result})
-        formRef.current.reset()
-        closeModal()
+        try {
+            await accountApi.post(`/${username}`, result)
+            dispatch({type: actionTypes.ADD_ACCOUNT, payload: result})
+            formRef.current.reset()
+            setIsAccountError(false)
+            closeModal()
+        } catch (error) {
+            //If when trying to post a new account no cookie was detected, redirect the user back to the login page.
+            if (error.response.status === 403){
+                navigate("/")
+                return
+            }
+            console.log("err:", error.response.status);
+            setIsAccountError(true)
+            setNewAccountError(error.response.data.errDuplicateAccountName)
+        }
     }
 
     return (
@@ -33,6 +52,16 @@ export default function NewAccountForm({ closeModal }) {
                 <label>Account Name</label><br />
                 <input type="text" name='account_name' minLength="4" maxLength="20" required/>
             </div>
+
+            {
+                isAccountError
+                ?
+                <div className={styles.new_account_error}>
+                    {newAccountError}
+                </div>
+                :
+                null
+            }
 
             <div className={styles.input_group}>
                 <label>Initial deposit ($)</label><br />

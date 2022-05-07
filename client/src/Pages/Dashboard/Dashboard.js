@@ -10,19 +10,40 @@ import NewAccountForm from "../../Components/NewAccountForm/NewAccountForm"
 import DeleteAccountForm from '../../Components/DeleteAccountForm/DeleteAccountForm'
 import WithdrawAccountForm from "../../Components/WithdrawAccountForm/WithdrawAccountForm"
 import DepositAccountForm from '../../Components/DepositAccountForm/DepositAccountForm'
-import { base } from "../../Components/BaseUrl/BaseUrl"
-import { useSelector } from "react-redux"
-import axios from "axios"
+import { useSelector, useDispatch } from "react-redux"
+import { userApi } from "../../Components/API/API"
+import { useNavigate } from "react-router-dom";
+import { actionTypes } from "../../state/reducers/actionTypes"
 
 export default function Dashboard() {
     const [showNewAccountModal, setShowNewAccountModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showWithdrawModal, setShowWithdrawModal] = useState(false)
     const [showDepositModal, setShowDepositModal] = useState(false)
-    const username = useSelector(state => state.user)
+    const [lastSignIn, setLastSignIn] = useState("")
+    const username = useSelector(state => state.username)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-      axios.get(`${base}/`)
+    useEffect( () => {
+        (async () => {
+            try {
+                const response = await userApi.get(`/${username}`)
+
+                dispatch({type: actionTypes.CLEAR_ACCOUNTS})
+                dispatch({type: actionTypes.UPDATE_USERNAME, payload: response.data.username})
+                response.data.accounts.forEach(account => {
+                    dispatch({type: actionTypes.ADD_ACCOUNT, payload: account})
+                })
+
+                const formatDate = new Date(response.data.last_signin)
+
+                setLastSignIn(formatDate)
+            } catch (error) {
+                navigate("/")
+                console.log("err:", error.response.data);
+            }
+        })();
     }, [])
 
     const openModal = (setModalShow) => {
@@ -45,7 +66,7 @@ export default function Dashboard() {
                 </div>
                 <MiniNav />
                 <div className={styles.welcome}>Welcome, {username}</div>
-                <div className={styles.last_sign_in}>Last sign on: Apr. 06, 2022 (5:14 AM ET) from computer.</div>
+                <div className={styles.last_sign_in}>{`Last sign on: ${lastSignIn} from computer.`}</div>
                 <button className={styles.open_new_account} onClick={() => openModal(setShowNewAccountModal)}>
                     Open New Account
                 </button>

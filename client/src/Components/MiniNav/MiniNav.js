@@ -1,15 +1,26 @@
 import React, { useState } from 'react'
 import styles from "./MiniNav.module.scss"
-
 import { BiMenu, BiX } from "react-icons/bi"
-import { BsChevronBarRight } from "react-icons/bs"
 import { FaAngleRight } from "react-icons/fa"
+import { userApi } from "../API/API"
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { actionTypes } from "../../state/reducers/actionTypes"
 
 export default function MiniNav() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [isPhoneMenuActive, setIsPhoneMenuActive] = useState(false)
 
     const toggleMenu = () => {
         setIsPhoneMenuActive(!isPhoneMenuActive)
+    }
+
+    const signout = async () => {
+        await userApi.post("/signout")
+        dispatch({type: actionTypes.CLEAR_ACCOUNTS})
+        dispatch({type: actionTypes.CLEAR_USERNAME})
+        navigate("/")
     }
 
     return (
@@ -35,7 +46,7 @@ export default function MiniNav() {
                     </div>
                 </div>
                 
-                <div className={styles.signout}>
+                <div className={styles.signout} onClick={signout}>
                     Sign out
                 </div>
             </div>

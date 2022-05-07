@@ -39,13 +39,15 @@ export default function AccountLabel({ accountType, amount, accountLabelOnClick,
                 <div className={styles.accounts}>
                     {
                         accounts.map((account, i)=> {
-                            return account.accountType === accountType ? 
+                             //console.log("account:", account, "i:", i)
+                              return accountType === account.account_type ?
                                 <Account
-                                    accountName={account.accountName}
-                                    availableAmount={account.availableAmount}
-                                    onDepositAmount={account.onDepositAmount}
+                                    accountName={account.account_name}
+                                    availableBalance={account.available_balance}
+                                    onDepositBalance={account.ondeposit_balance}
                                     openModalFunctions={openModalFunctions}
-                                    key={i}
+                                    accountID={account.ID}
+                                    key={account.ID}
                                 />
                                 :
                                 null

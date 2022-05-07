@@ -23,10 +23,14 @@ type jsonBody map[string]interface{}
 
 var r *render.Render
 var tokenAuth *jwtauth.JWTAuth
-const sessionLen int = 600 //600 seconds or 10 minutes
+const sessionLen int = 5000 //5000 seconds or 10 minutes
 
 func init() {
 	r = render.New()
+}
+
+func CheckAuth(res http.ResponseWriter, req *http.Request){
+	r.JSON(res, http.StatusOK, jsonBody{"message": "Signed in."})
 }
 
 func GetUsers(res http.ResponseWriter, req *http.Request) {
@@ -88,6 +92,7 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	user.LastSignin = time.Now()
 	setCookie(user, res)
 	r.JSON(res, http.StatusOK, user)
 }
@@ -114,6 +119,10 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		})
 		return
 	}
+
+	mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"username": user.Username}, bson.M{
+		"$set": bson.M{"last_signin": time.Now()},
+	})
 
 	setCookie(user, res)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})

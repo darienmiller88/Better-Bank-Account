@@ -1,32 +1,34 @@
 import { actionTypes } from "./actionTypes"
 
-export const accountsReducer = (state = [
-    {
-        accountName: "firstAccount",
-        availableAmount: 120.78,
-        onDepositAmount: 120.78,
-        accountType: "Savings"
-    }
-], action) => {
+export const accountsReducer = (state = [], action) => {
     switch (action.type) {
+        case actionTypes.CLEAR_ACCOUNTS:
+            return []
         case actionTypes.ADD_ACCOUNT: 
             return [...state, action.payload]
-        case actionTypes.DELETE_ACCOUNT: 
-            return state.filter(account => account.accountName !== action.payload)
+        case actionTypes.DELETE_ACCOUNT: {
+            const account = state.filter(account => account.account_name !== action.payload)
+            
+            console.log("account removed:", account);
+            
+            return state.filter(account => account.account_name !== action.payload)
+        }
         case actionTypes.WITHDRAW: {
-             const indexOfAccount = state.findIndex(account => account.accountName === action.payload.currentAccount)
-            state[indexOfAccount].availableAmount -= action.payload.withdrawAmount
-            state[indexOfAccount].availableAmount = parseFloat(state[indexOfAccount].availableAmount.toFixed(2))
-            state[indexOfAccount].onDepositAmount = state[indexOfAccount].availableAmount
+            const indexOfAccount = state.findIndex(account => account.account_name === action.payload.currentAccountName)
+           
+            state[indexOfAccount].available_balance -= action.payload.withdrawAmount
+            state[indexOfAccount].available_balance = parseFloat(state[indexOfAccount].available_balance.toFixed(2))
+            state[indexOfAccount].ondeposit_balance = state[indexOfAccount].available_balance
             
             return state
         }
            
         case actionTypes.DEPOSIT: {
-            const indexOfAccount = state.findIndex(account => account.accountName === action.payload.currentAccount)
-            state[indexOfAccount].availableAmount += action.payload.depositAmount 
-            state[indexOfAccount].availableAmount = parseFloat(state[indexOfAccount].availableAmount.toFixed(2))    
-            state[indexOfAccount].onDepositAmount = state[indexOfAccount].availableAmount
+            const indexOfAccount = state.findIndex(account => account.account_name === action.payload.currentAccountName)
+                        
+            state[indexOfAccount].available_balance += action.payload.depositAmount 
+            state[indexOfAccount].available_balance = parseFloat(state[indexOfAccount].available_balance.toFixed(2))    
+            state[indexOfAccount].ondeposit_balance = state[indexOfAccount].available_balance
 
             return state
         }
@@ -36,7 +38,7 @@ export const accountsReducer = (state = [
     }
 }
 
-export const userReducer = (state = "", action) => {
+export const userNameReducer = (state = "", action) => {
     switch (action.type) {
         case actionTypes.UPDATE_USERNAME: 
             state = action.payload
@@ -46,7 +48,7 @@ export const userReducer = (state = "", action) => {
     }
 }
 
-export const accountClickedReducer = (state = "", action) => {
+export const accountNameReducer = (state = "", action) => {
     switch (action.type) {
         case actionTypes.UPDATE_ACCOUNT_NAME: 
             state = action.payload

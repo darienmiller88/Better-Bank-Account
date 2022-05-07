@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 	"unicode"
 
 	"github.com/kamva/mgm/v3"
@@ -16,6 +17,7 @@ type User struct{
 	Username     string    `json:"username"    bson:"username"`
 	Password     string    `json:"password"    bson:"password"`
 	RememberMe   bool      `json:"remember_me" bson:"remember_me"`
+	LastSignin   time.Time `json:"last_signin" bson:"last_signin"`
 	BankAccounts []Account `json:"accounts"    bson:"accounts"`
 }
 

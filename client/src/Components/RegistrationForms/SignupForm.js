@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import styles from "./RegistrationForms.module.scss"
-import axios from 'axios'
-import { base } from "../BaseUrl/BaseUrl"
+import { userApi } from "../API/API"
 import { useDispatch } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
 
@@ -27,7 +26,7 @@ export default function SignupForm({ changeToSignin }) {
         }
 
         try {
-            await axios.post(`${base}/signup`, data)  
+            await userApi.post("/signup", data)  
             dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})  
             navigate("/dashboard")        
             signupFormRef.current.reset()

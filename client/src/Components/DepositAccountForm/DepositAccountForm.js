@@ -3,21 +3,35 @@ import styles from "./DepositAccountForm.module.scss"
 import FormButton from '../FormButton/FormButton'
 import { useSelector, useDispatch } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
+import { useNavigate } from "react-router-dom";
+import { accountApi } from "../API/API"
 
 export default function DepositAccountForm({ closeModal }) {
     const formRef = useRef(null)
-    const currentAccount = useSelector(state => state.currentAccount)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch()    
+    const navigate = useNavigate()
+    const username = useSelector(state => state.username)
+    const accounts = useSelector(state => state.accounts)
+    const currentAccountName = useSelector(state => state.currentAccountName)
 
-    const depositMoney = (e) => {
+    const depositMoney = async (e) => {
         e.preventDefault()
         const formData = new FormData(formRef.current)
         const depositAmount = parseFloat(formData.get("deposit"))
+        const account = accounts.find(account => account.account_name === currentAccountName)
 
-        dispatch({type: actionTypes.DEPOSIT, payload: {depositAmount, currentAccount}})
-
-        formRef.current.reset()
-        closeModal()
+        try {
+            await accountApi.put(`/deposit/${username}/${account.ID}`, depositAmount.toFixed(2))
+            dispatch({type: actionTypes.DEPOSIT, payload: { depositAmount, currentAccountName }})
+            formRef.current.reset()
+            closeModal() 
+        } catch (error) {
+            console.log("err:", error);
+            if (error && error.response.status === 403){
+                navigate("/")
+                return
+            }
+        }
     }
 
     return (

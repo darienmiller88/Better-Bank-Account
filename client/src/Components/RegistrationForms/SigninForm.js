@@ -2,8 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import styles from "./RegistrationForms.module.scss"
 import googleicon from "../../img/google_icon-nobg.png"
-import axios from 'axios'
-import { base } from "../BaseUrl/BaseUrl"
+import { userApi } from "../API/API"
 import { useDispatch } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
 
@@ -29,8 +28,8 @@ export default function SigninForm({ changeToSignup }) {
         }
 
         try {
-            await axios.post(`${base}/signin`, data) 
-            dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})    
+            await userApi.post("/signin", data)
+            dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})                
             navigate("/dashboard")     
             signinFormRef.current.reset()   
         } catch (error) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { base } from "../../Components/BaseUrl/BaseUrl"
+import { userApi } from "../../Components/API/API"
 
 export default function Test() {
     const [arr, setArr] = useState([])
@@ -8,7 +7,7 @@ export default function Test() {
     const [isError, setIsError] = useState(false)
 
     useEffect(() => {
-        axios.get(`${base}/api/v1/users/test`, { withCredentials: true })
+            userApi.get("/test")
             .then(response => setArr(response.data.test))
             .catch(err =>{
                 console.log("err:", err.response.data.errTokenValidation)
@@ -18,7 +17,7 @@ export default function Test() {
     }, [])
     
     const login = () => {
-        axios.post(`${base}/api/v1/users/signin`, {username: "darien88", password: "darien88"}, { withCredentials: true })
+        userApi.post("/signin",  {username: "darien88", password: "darien88"})
         .then(response => {            
             window.location.reload(false);
             console.log("you're in!", response.data)
@@ -29,7 +28,7 @@ export default function Test() {
     }
 
     const logout = () => {
-        axios.post(`${base}/api/v1/users/signout`, {}, { withCredentials: true })
+        userApi.post("/signout", {})
         .then(response => {
             window.location.reload(false);
             console.log(response.data)

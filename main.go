@@ -30,6 +30,7 @@ func main() {
 	newCors := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000", "https://millerbank.netlify.app"},
 		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 	}) 
 	router.Use(newCors.Handler)
 	router.Use(middleware.Logger)

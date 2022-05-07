@@ -110,7 +110,7 @@ func WithdrawFromBankAccount(res http.ResponseWriter, req *http.Request){
 }
 
 func handleAccountTransactions(transactionType string, res http.ResponseWriter, req *http.Request){
-	transactionAmount := 0.0
+	var transactionAmount float64
 
 	if err := render.DecodeJSON(req.Body, &transactionAmount); err != nil{
 		r.JSON(res, http.StatusBadRequest, jsonBody{invalidTypeError: err.Error()})
