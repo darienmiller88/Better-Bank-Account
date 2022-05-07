@@ -150,7 +150,7 @@ func setCookie(user models.User, res http.ResponseWriter) {
 	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
-		HttpOnly: true,
+		// HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
 		// SameSite: http.SameSiteStrictMode,
