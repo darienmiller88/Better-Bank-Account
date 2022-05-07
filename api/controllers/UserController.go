@@ -154,6 +154,7 @@ func setCookie(user models.User, res http.ResponseWriter) {
 		Value:    tokenString,
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
+		Secure:   true,
 	})
 }
 
