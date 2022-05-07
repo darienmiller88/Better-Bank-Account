@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -93,12 +94,19 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 	}
 
 	user.LastSignin = time.Now()
-	setCookie(user, res)
+	setCookie(user, res, req)
 	r.JSON(res, http.StatusOK, user)
 }
 
 func Signin(res http.ResponseWriter, req *http.Request) {
 	user := models.User{}
+	fmt.Println("host:", req.Host)
+
+	if strings.HasPrefix(req.Host, "localhost"){
+		fmt.Println("on localhost")
+	}else{
+		fmt.Println("not on local host")
+	}
 
 	if err := chi_render.DecodeJSON(req.Body, &user); err != nil {
 		r.JSON(res, http.StatusBadRequest, err)
@@ -124,7 +132,7 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		"$set": bson.M{"last_signin": time.Now()},
 	})
 
-	setCookie(user, res)
+	setCookie(user, res, req)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})
 }
 
@@ -138,7 +146,7 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
 }
 
-func setCookie(user models.User, res http.ResponseWriter) {
+func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 	expiry := time.Now().Add(time.Duration(sessionLen) * time.Second)
 	tokenAuth = jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
 	_, tokenString, _ := tokenAuth.Encode(jsonBody{
@@ -146,15 +154,24 @@ func setCookie(user models.User, res http.ResponseWriter) {
 		"exp":  expiry.Unix(),
 	})
 
+	var domainName string
+
+	if strings.HasPrefix(req.Host, "localhost"){
+		domainName = "localhost"
+	}else{
+		domainName = req.Host
+	}
+
 	//Finally, add a cookie with the jwt as the value
 	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
-		// HttpOnly: true,
+		HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
-		// SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
+		Domain:   domainName,
 	})
 }
 
