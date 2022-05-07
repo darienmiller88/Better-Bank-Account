@@ -81,23 +81,23 @@ export default function Navbar() {
                     <BiX className={styles.icon} onClick={ toggleMenu }/>
                 </div>
                 <LinksWrapper />
-
+            {/* 
                 <div className={styles.signout_wrapper}>
                     <a href='/'>
                         Sign out
                     </a>
-                </div>
+                </div> */}
             </div>
             
             <div className={styles.links}>
                 <LinksWrapper />
             </div>
 
-            <div className={styles.signout_wrapper}>
+            {/* <div className={styles.signout_wrapper}>
                 <a href='/'>
                     Sign out
                 </a>
-            </div>
+            </div> */}
         </div>
     )
 }
