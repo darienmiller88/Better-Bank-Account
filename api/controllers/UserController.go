@@ -100,7 +100,6 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 
 func Signin(res http.ResponseWriter, req *http.Request) {
 	user := models.User{}
-	fmt.Println("host:", req.Host)
 
 	if strings.HasPrefix(req.Host, "localhost"){
 		fmt.Println("on localhost")
@@ -154,13 +153,13 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		"exp":  expiry.Unix(),
 	})
 
-	var domainName string
+	// var domainName string
 
-	if strings.HasPrefix(req.Host, "localhost"){
-		domainName = "localhost"
-	}else{
-		domainName = req.Host
-	}
+	// if strings.HasPrefix(req.Host, "localhost"){
+	// 	domainName = "localhost"
+	// }else{
+	// 	domainName = req.Host
+	// }
 
 	//Finally, add a cookie with the jwt as the value
 	http.SetCookie(res, &http.Cookie{
@@ -171,7 +170,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   domainName,
+		Domain:   "netlify.app",
 	})
 }
 
