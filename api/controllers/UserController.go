@@ -171,7 +171,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   "https://millerbank.netlify.app/",
+		Domain:   "millerbank.netlify.app",
 	}
 
 	fmt.Println("cookie:", cookie, "and host:", req.Host)
