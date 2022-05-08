@@ -168,9 +168,9 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
-		SameSite: http.SameSiteStrictMode,
+		// SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   "better-bank-account-api.herokuapp.com",
+		Domain:   "/",
 	}
 
 	//better-bank-account-api.herokuapp.com
