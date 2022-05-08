@@ -131,6 +131,7 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		"$set": bson.M{"last_signin": time.Now()},
 	})
 
+	fmt.Println("user:", user)
 	setCookie(user, res, req)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})
 }
@@ -162,7 +163,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 	// }
 
 	//Finally, add a cookie with the jwt as the value
-	http.SetCookie(res, &http.Cookie{
+	cookie :=  &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
 		HttpOnly: true,
@@ -171,7 +172,10 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
 		Domain:   "netlify.app",
-	})
+	}
+
+	fmt.Println("cookie:", cookie, "and host:", req.Host)
+	http.SetCookie(res, cookie)
 }
 
 func DeleteUser(res http.ResponseWriter, req *http.Request) {
