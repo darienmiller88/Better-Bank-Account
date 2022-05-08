@@ -131,7 +131,6 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		"$set": bson.M{"last_signin": time.Now()},
 	})
 
-	fmt.Println("user:", possibleUser)
 	setCookie(user, res, req)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})
 }
@@ -176,7 +175,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 
 	//better-bank-account-api.herokuapp.com
 
-	fmt.Println("host:", req.Host)
+	fmt.Println("host:", req.Host, "cookie:", cookie)
 	http.SetCookie(res, cookie)
 }
 
