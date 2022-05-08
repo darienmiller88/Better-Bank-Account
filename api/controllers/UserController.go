@@ -131,7 +131,7 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		"$set": bson.M{"last_signin": time.Now()},
 	})
 
-	fmt.Println("user:", user)
+	fmt.Println("user:", possibleUser)
 	setCookie(user, res, req)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})
 }
@@ -171,7 +171,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   "netlify.app",
+		Domain:   "https://millerbank.netlify.app/",
 	}
 
 	fmt.Println("cookie:", cookie, "and host:", req.Host)
