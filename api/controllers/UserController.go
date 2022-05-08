@@ -171,7 +171,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   "netlify.app",
+		//Domain:   "netlify.app",
 	}
 
 	//better-bank-account-api.herokuapp.com
