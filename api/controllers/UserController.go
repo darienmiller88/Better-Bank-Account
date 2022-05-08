@@ -171,10 +171,12 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteStrictMode,
 		Secure:   true,
-		Domain:   "millerbank.netlify.app",
+		Domain:   "netlify.app",
 	}
 
-	fmt.Println("cookie:", cookie, "and host:", req.Host)
+	//better-bank-account-api.herokuapp.com
+
+	fmt.Println("host:", req.Host)
 	http.SetCookie(res, cookie)
 }
 
