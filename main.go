@@ -28,7 +28,7 @@ func main() {
 
 	index.Init()
 	newCors := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", "https://millerbank.netlify.app"},
+		AllowedOrigins: []string{"http://localhost:3000", "https://millerbank.netlify.app", "https://millerbanking.herokuapp.com"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 	}) 
