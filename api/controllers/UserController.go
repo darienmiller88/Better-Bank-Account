@@ -168,7 +168,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
-		SameSite: http.SameSiteStrictMode,
+		// SameSite: http.SameSiteStrictMode,
 		Secure:   true,
 		Domain: "netlify.app",
 	}
