@@ -144,7 +144,7 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 		MaxAge:   -1,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		// Domain:   "better-bank-account-api.herokuapp.com",
+		 Domain:   "better-bank-account-api.herokuapp.com",
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
@@ -175,7 +175,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		// Domain:   "better-bank-account-api.herokuapp.com",
+		Domain:   "better-bank-account-api.herokuapp.com",
 	}
 
 	fmt.Println("new push")
