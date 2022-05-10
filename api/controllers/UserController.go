@@ -139,10 +139,12 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
-		MaxAge:  -1,
+		HttpOnly: true,
+		Value:    "",
+		MaxAge:   -1,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		HttpOnly: true,
+		// Domain:   "better-bank-account-api.herokuapp.com",
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
