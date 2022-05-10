@@ -170,7 +170,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		Domain:   ".herokuapp.com",
+		// Domain:   ".herokuapp.com",
 	}
 
 	//better-bank-account-api.herokuapp.com
