@@ -4,9 +4,10 @@ import (
 	"Better-Bank-Account/api/models"
 	"errors"
 	"fmt"
+	"math"
+	"net/http"
 	"strings"
 	"time"
-	"net/http"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -142,6 +143,8 @@ func handleAccountTransactions(transactionType string, res http.ResponseWriter, 
 		return
 	}
 	
+	account.AvailableBalance = math.Floor(account.AvailableBalance * 100) / 100
+	account.OnDepositBalance = math.Floor(account.AvailableBalance * 100) / 100
 	account.UpdatedAt = time.Now()
 	user.BankAccounts[accountindex] = account
 

@@ -20,10 +20,7 @@ func init() {
 
 func Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {	
-		cookie, err := req.Cookie("jwt")
 		tokenString := jwtauth.TokenFromCookie(req)
-
-		fmt.Println("cookie in middleware:", cookie)
 
 		if tokenString == ""{
 			r.JSON(res, http.StatusForbidden, jsonBody{"errTokenValidation": "A token is required for authentication."})

@@ -140,11 +140,10 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 		Name:     "jwt",
 		Path:     "/",
 		HttpOnly: true,
-		Value:    "",
 		MaxAge:   -1,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		 Domain:   "better-bank-account-api.herokuapp.com",
+		Domain:   "better-bank-account-api.herokuapp.com",
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
@@ -167,7 +166,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 	// }
 
 	//Finally, add a cookie with the jwt as the value
-	cookie :=  &http.Cookie{
+	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
 		HttpOnly: true,
@@ -176,11 +175,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
 		Domain:   "better-bank-account-api.herokuapp.com",
-	}
-
-	fmt.Println("new push")
-	fmt.Println("host:", req.Host, "cookie domain:", cookie)
-	http.SetCookie(res, cookie)
+	})
 }
 
 func DeleteUser(res http.ResponseWriter, req *http.Request) {
