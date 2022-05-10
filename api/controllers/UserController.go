@@ -142,6 +142,7 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 		MaxAge:  -1,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
+		HttpOnly: true,
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
