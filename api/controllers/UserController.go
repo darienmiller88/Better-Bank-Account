@@ -168,13 +168,14 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		HttpOnly: true,
 		Value:    tokenString,
 		Expires:  expiry,
-		// SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		Domain:   "millerbanking.herokuapp.com",
+		// Domain:   ".herokuapp.com",
 	}
 
 	//better-bank-account-api.herokuapp.com
 
+	fmt.Println("new push")
 	fmt.Println("host:", req.Host, "cookie domain:", cookie)
 	http.SetCookie(res, cookie)
 }
