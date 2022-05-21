@@ -3,13 +3,11 @@ import styles from "./PhoneView.module.scss"
 import AccountLabel from '../AccountLabel/AccountLabel'
 import BankResource from '../BankResource/BankResource'
 import { getTotalDeposit, checkings, savings } from "../GetTotalDeposit/GetTotalDeposit"
-import { useSelector } from "react-redux"
 
 export default function PhoneView({openDepositModal, openWithdrawModal, openTransferModal, openDeleteModal}) {
     const [isFirstButtonActive, setIsFirstButtonActive] = useState(true)
     const [isCheckingsLabelClicked, setIsCheckingsLabelClicked] = useState(false)
     const [isSavingsLabelClicked, setIsSavingsLabelClicked] = useState(false)
-    const accounts = useSelector(state => state.accounts)
 
     return (
         <div className={styles.phone_view}>
@@ -34,7 +32,8 @@ export default function PhoneView({openDepositModal, openWithdrawModal, openTran
                         openModalFunctions={{
                             openDeleteModal,
                             openDepositModal,
-                            openWithdrawModal
+                            openWithdrawModal,
+                            openTransferModal
                         }}
                     />
                     <AccountLabel 
@@ -45,7 +44,8 @@ export default function PhoneView({openDepositModal, openWithdrawModal, openTran
                         openModalFunctions={{
                             openDeleteModal,
                             openDepositModal,
-                            openWithdrawModal
+                            openWithdrawModal,
+                            openTransferModal
                         }}
                     />
                 </>

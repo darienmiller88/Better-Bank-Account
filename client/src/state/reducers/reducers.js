@@ -6,30 +6,27 @@ export const accountsReducer = (state = [], action) => {
             return []
         case actionTypes.ADD_ACCOUNT: 
             return [...state, action.payload]
-        case actionTypes.DELETE_ACCOUNT: {
-            const account = state.filter(account => account.account_name !== action.payload)
-            
-            console.log("account removed:", account);
-            
+        case actionTypes.TRANSFER:
+            const accountFrom = state.find(account => account.account_name === action.payload.accountFromName)
+            const accountTo   = state.find(account => account.account_name === action.payload.accountToName)
+
+            withdrawOrDeposit(actionTypes.WITHDRAW, accountFrom, action.payload.transferAmount)
+            withdrawOrDeposit(actionTypes.DEPOSIT, accountTo, action.payload.transferAmount)
+            return state
+        case actionTypes.DELETE_ACCOUNT: {                    
             return state.filter(account => account.account_name !== action.payload)
         }
         case actionTypes.WITHDRAW: {
             const indexOfAccount = state.findIndex(account => account.account_name === action.payload.currentAccountName)
            
-            state[indexOfAccount].available_balance -= action.payload.withdrawAmount
-            state[indexOfAccount].available_balance = parseFloat(state[indexOfAccount].available_balance.toFixed(2))
-            state[indexOfAccount].ondeposit_balance = state[indexOfAccount].available_balance
-            
+            withdrawOrDeposit(action.type, state[indexOfAccount], action.payload.withdrawAmount)
             return state
         }
            
         case actionTypes.DEPOSIT: {
             const indexOfAccount = state.findIndex(account => account.account_name === action.payload.currentAccountName)
                         
-            state[indexOfAccount].available_balance += action.payload.depositAmount 
-            state[indexOfAccount].available_balance = parseFloat(state[indexOfAccount].available_balance.toFixed(2))    
-            state[indexOfAccount].ondeposit_balance = state[indexOfAccount].available_balance
-
+            withdrawOrDeposit(action.type, state[indexOfAccount], action.payload.depositAmount)
             return state
         }
 
@@ -58,13 +55,11 @@ export const accountNameReducer = (state = "", action) => {
     }
 }
 
-// function withdrawOrDeposit(actionType, state, action) {
-//     const indexOfAccount = state.findIndex(account => account.accountName === action.payload.currentAccount)
-
-//     actionType === actionTypes.DEPOSIT ?
-//     state[indexOfAccount].availableAmount += action.payload.depositAmount
-//     :
-    
-//     state[indexOfAccount].availableAmount = parseFloat(state[indexOfAccount].availableAmount.toFixed(2))
-
-// }
+function withdrawOrDeposit(actionType, account, amount) {
+    actionType === actionTypes.DEPOSIT ?
+    account.available_balance += amount
+    :
+    account.available_balance -= amount
+    account.available_balance = parseFloat(account.available_balance.toFixed(2))    
+    account.ondeposit_balance = account.available_balance
+}

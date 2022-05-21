@@ -19,7 +19,8 @@ export default function DesktopView({openWithdrawModal, openDepositModal, openTr
                     openModalFunctions={{
                         openDeleteModal,
                         openDepositModal,
-                        openWithdrawModal
+                        openWithdrawModal,
+                        openTransferModal
                     }}
                 />
                 <AccountLabel 
@@ -30,7 +31,8 @@ export default function DesktopView({openWithdrawModal, openDepositModal, openTr
                     openModalFunctions={{
                         openDeleteModal,
                         openDepositModal,
-                        openWithdrawModal
+                        openWithdrawModal, 
+                        openTransferModal
                     }}
                 />
             </div>

@@ -1,0 +1,20 @@
+.transfer_form{
+    text-align: center;
+
+    .transfer_header{
+        font-size: 25px;
+    }
+
+    .input_group{
+        padding: 10px;
+
+        select, label{
+            font-size: 18px;
+        }
+    }
+
+    .error{
+        text-align: center;
+        color: red;
+    }
+}

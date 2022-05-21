@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -24,13 +23,15 @@ type jsonBody map[string]interface{}
 
 var r *render.Render
 var tokenAuth *jwtauth.JWTAuth
-const sessionLen int = 5000 //5000 seconds or 10 minutes
+
+const standardSessionLen   int = 5000 //5000 seconds or 83 minutes
+const persistentSessionLen int = 31536000 //One year cookie for the "remember me" option.
 
 func init() {
 	r = render.New()
 }
 
-func CheckAuth(res http.ResponseWriter, req *http.Request){
+func CheckAuth(res http.ResponseWriter, req *http.Request) {
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Signed in."})
 }
 
@@ -53,6 +54,10 @@ func GetUsers(res http.ResponseWriter, req *http.Request) {
 
 func GetUserByUsername(res http.ResponseWriter, req *http.Request) {
 	r.JSON(res, http.StatusOK, req.Context().Value("user"))
+}
+
+func GetTransfers(res http.ResponseWriter, req *http.Request) {
+	r.JSON(res, http.StatusOK, req.Context().Value("user").(models.User).Transfers)
 }
 
 func Signup(res http.ResponseWriter, req *http.Request) {
@@ -95,20 +100,14 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 
 	user.LastSignin = time.Now()
 	setCookie(user, res, req)
-	r.JSON(res, http.StatusOK, user)
+	r.JSON(res, http.StatusOK, jsonBody{"message": "sign up successful."})
 }
 
 func Signin(res http.ResponseWriter, req *http.Request) {
 	user := models.User{}
 
-	if strings.HasPrefix(req.Host, "localhost"){
-		fmt.Println("on localhost")
-	}else{
-		fmt.Println("not on local host")
-	}
-
 	if err := chi_render.DecodeJSON(req.Body, &user); err != nil {
-		r.JSON(res, http.StatusBadRequest, err)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -116,14 +115,12 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 	err := mgm.Coll(&models.User{}).FindOne(mgm.Ctx(), bson.M{"username": user.Username}).Decode(&possibleUser)
 
 	if err != nil && err != mongo.ErrNoDocuments {
-		r.JSON(res, http.StatusInternalServerError, err)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(possibleUser.Password), []byte(user.Password)); err != nil {
-		r.JSON(res, http.StatusUnauthorized, jsonBody{
-			"errInvalidLogin": "Username or Password not connected to any account. Please try again.",
-		})
+		http.Error(res, "Username or Password not connected to any account. Please try again.", http.StatusUnauthorized)
 		return
 	}
 
@@ -143,18 +140,26 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 		MaxAge:   -1,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		Domain:   "better-bank-account-api.herokuapp.com",
+		//Domain:   "better-bank-account-api.herokuapp.com",
 	})
 
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
 }
 
 func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
+	sessionLen := 0
+
+	if user.RememberMe {
+		sessionLen = persistentSessionLen
+	}else{
+		sessionLen = standardSessionLen
+	}
+
 	expiry := time.Now().Add(time.Duration(sessionLen) * time.Second)
 	tokenAuth = jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
 	_, tokenString, _ := tokenAuth.Encode(jsonBody{
 		"username": user.Username,
-		"exp":  expiry.Unix(),
+		"exp":      expiry.Unix(),
 	})
 
 	// var domainName string
@@ -174,7 +179,7 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Expires:  expiry,
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
-		Domain:   "better-bank-account-api.herokuapp.com",
+		//Domain:   "better-bank-account-api.herokuapp.com",
 	})
 }
 

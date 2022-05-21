@@ -7,13 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
 
-export default function MiniNav() {
+export default function MiniNav({ displayTransfers, displayAccounts }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [isPhoneMenuActive, setIsPhoneMenuActive] = useState(false)
 
     const toggleMenu = () => {
         setIsPhoneMenuActive(!isPhoneMenuActive)
+    }
+
+    const toggleTransfers = () => {
+        displayTransfers(true)
+        displayAccounts(false)
+        toggleMenu()
+    }
+
+    const toggleAccounts = () => {
+        displayTransfers(false)
+        displayAccounts(true)
+        toggleMenu()
     }
 
     const signout = async () => {
@@ -34,10 +46,10 @@ export default function MiniNav() {
                     <BiMenu className={styles.hamburger_menu} onClick={toggleMenu}/>
                 }
                 <div className={styles.links}>
-                    <div className={styles.link}>
+                    <div className={styles.link} onClick={toggleAccounts}>
                         Accounts
                     </div>
-                    <div className={styles.link}>
+                    <div className={styles.link} onClick={toggleTransfers}>
                         Transfers
                     </div>
                     <div className={`${styles.link} ${styles.open_account}`}>
@@ -55,20 +67,17 @@ export default function MiniNav() {
                 isPhoneMenuActive
                 ?
                 <div className={styles.phone_menu}>
-                    <div className={styles.link}>
+                    <div className={styles.link} onClick={toggleAccounts}>
                         Accounts
                         <FaAngleRight className={styles.link_icon} />
                     </div>
-                    <div className={styles.link}>
+                    <div className={styles.link} onClick={toggleTransfers}>
                         Transfers
                         <FaAngleRight className={styles.link_icon} />
                     </div>
                     <div className={styles.link}>
                         Profile
                         <FaAngleRight className={styles.link_icon} />
-                    </div>
-                    <div className={styles.open_account}>
-                        Open an Account
                     </div>
                 </div>
                 :

@@ -16,7 +16,7 @@ export default function Account({accountName, accountID, availableBalance, onDep
             <div className={styles.account_name}>{accountName}</div>
 
             <div className={styles.options}>
-                <div className={styles.option}>Transfer</div>
+                <div className={styles.option} onClick={() => updateCurrentAccount(openModalFunctions.openTransferModal)}>Transfer</div>
                 <div className={styles.option} onClick={() => updateCurrentAccount(openModalFunctions.openWithdrawModal)}>Withdraw Funds</div>
                 <div className={styles.option} onClick={() => updateCurrentAccount(openModalFunctions.openDepositModal)}>Add Funds</div>
                 <div className={styles.option} onClick={() => updateCurrentAccount(openModalFunctions.openDeleteModal)}>Delete</div>

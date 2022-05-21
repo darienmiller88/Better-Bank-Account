@@ -81,7 +81,6 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 	r.JSON(res, http.StatusOK, result)
 }
 
-
 func DeleteAccount(res http.ResponseWriter, req *http.Request){
 	accountID := chi.URLParam(req, accountidURLParam)
 	user := req.Context().Value("user").(models.User)
@@ -100,6 +99,75 @@ func DeleteAccount(res http.ResponseWriter, req *http.Request){
 	)
 
 	r.JSON(res, http.StatusOK, result)
+}
+
+func Transfer(res http.ResponseWriter, req *http.Request){
+	var transactionAmount float64
+
+	if err := render.DecodeJSON(req.Body, &transactionAmount); err != nil{
+		r.JSON(res, http.StatusBadRequest, jsonBody{invalidTypeError: err.Error()})
+		return
+	}
+
+	if transactionAmount < 0 {
+		r.JSON(res, http.StatusBadRequest, jsonBody{invalidTransactionError: "Transaction amount cannot be negative."})
+		return
+	}
+
+	user := req.Context().Value("user").(models.User)
+	accountFromId := chi.URLParam(req, "accountFromId")
+	accountToId   := chi.URLParam(req, "accountToId")
+	accountFrom, indexFrom, errAccountFrom := validateAccountId(accountFromId, user)
+	accountTo,   indexTo,   errAccountTo   := validateAccountId(accountToId, user)
+
+	if errAccountFrom != nil{
+		r.JSON(res, http.StatusNotFound, jsonBody{invalidAccountIdError: errAccountFrom.Error()})
+		return
+	}
+
+	if errAccountTo != nil{
+		r.JSON(res, http.StatusNotFound, jsonBody{invalidAccountIdError: errAccountTo.Error()})
+		return
+	}
+
+	if accountFromId == accountToId{
+		r.JSON(res, http.StatusBadRequest, jsonBody{"errSameAccount": "Accounts cannot be the same for transfer."})
+		return
+	}
+
+	// If the transaction amount is greater than the account that is being transferred from, complain.
+	if transactionAmount > user.BankAccounts[indexFrom].AvailableBalance{
+		user.Transfers = append(user.Transfers, createTransfer(false, 
+			accountFrom.AccountName,
+			accountTo.AccountName,
+			transactionAmount,
+		))
+		
+		mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"username": user.Username}, bson.M{"$set": user})
+		r.JSON(res, http.StatusBadRequest, jsonBody{invalidTransactionError: "Insufficient funds. Cannot perform transfer."})
+		return
+	}
+
+	//After performing the transfer, floor the results to keep it to two decimals.
+	user.BankAccounts[indexFrom].AvailableBalance = math.Floor((user.BankAccounts[indexFrom].AvailableBalance - transactionAmount) * 100) / 100
+	user.BankAccounts[indexFrom].OnDepositBalance = user.BankAccounts[indexFrom].AvailableBalance
+	user.BankAccounts[indexTo].AvailableBalance = math.Floor((user.BankAccounts[indexTo].AvailableBalance + transactionAmount) * 100) / 100
+	user.BankAccounts[indexTo].OnDepositBalance = user.BankAccounts[indexTo].AvailableBalance
+
+	//Append a transfer transaction to the users transfer array to keep track of every transfer made.
+	user.Transfers = append(user.Transfers, createTransfer(
+		true, 
+		user.BankAccounts[indexFrom].AccountName,
+		user.BankAccounts[indexTo].AccountName,
+		transactionAmount,
+	))
+
+	mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"username": user.Username}, bson.M{"$set": user})
+	
+	r.JSON(res, http.StatusOK, jsonBody{
+		"Account From": user.BankAccounts[indexFrom], 
+		"Account To"  : user.BankAccounts[indexTo],
+	})
 }
 
 func DepositIntoBankAccount(res http.ResponseWriter, req *http.Request){
@@ -174,4 +242,23 @@ func validateAccountId(accountID string, user models.User) (models.Account, int,
 	}
 
 	return models.Account{}, -1, errors.New(fmt.Sprintf("Account with id: %s not found.", accountID))
+}
+
+func createTransfer(isTransferSuccessful bool, accountFrom string, accountTo string, transactionAmount float64) models.Transfer{
+	status := ""
+
+	if isTransferSuccessful{
+		status = "completed"
+	}else{
+		status = "failed"
+	}
+
+	return models.Transfer{
+		ID: strings.Replace(uuid.NewString(), "-", "", -1),
+		TransferDate: time.Now(),
+		AccountFromName: accountFrom,
+		AccountToName: accountTo,
+		TransferAmount: transactionAmount,
+		Status: status,
+	}
 }

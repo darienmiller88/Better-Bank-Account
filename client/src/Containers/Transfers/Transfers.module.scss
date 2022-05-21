@@ -1,0 +1,78 @@
+.transfers_container{
+    .header{
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .transfers{
+        width: 90%;
+        height: 60vh;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        // border: 1px solid var(--bright-blue);
+        overflow-y: scroll;
+
+        @media screen and (min-width: 992px) {
+            width: fit-content;
+        }
+
+        .transfer{
+            width: 100%;
+            height: fit-content;
+            // border: 1px solid red;
+            // border-top: 2px solid black;
+            border-bottom: 2px solid black;
+
+            .date{
+                display: flex;
+                justify-content: space-between;
+
+                .status{
+                    display: flex;
+
+                    .complete{
+                        padding: 0px 10px;
+                        color: var(--bright-blue);
+                    }
+                    
+                    .fail{
+                        padding: 0px 10px;
+                        color: red;
+                    }
+                }
+            }
+
+            @media screen and (min-width: 768px){
+                display: none;
+            }
+        }
+
+        table{
+            display: none;
+
+            @media screen and (min-width: 768px) {  
+                display: unset;
+                margin: auto;
+                width: 85vw;
+                font-size: 20px;
+                border-collapse: collapse;
+            }
+        }
+        
+        tr{
+            border-bottom: 2px solid gray;
+        }
+    
+        th{
+            color: var(--bright-blue);
+            text-align: left;
+            padding: 15px;
+        }
+    
+        td{
+            padding: 15px;
+        }
+    }
+
+}

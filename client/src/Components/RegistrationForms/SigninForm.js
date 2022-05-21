@@ -27,19 +27,14 @@ export default function SigninForm({ changeToSignup }) {
             remember_me 
         }
 
-
         try {
             await userApi.post("/signin", data)
             dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})                
-            navigate("/dashboard")     
             signinFormRef.current.reset()   
+            navigate("/dashboard")     
         } catch (error) {
-            console.log("err:", error.response.data);
-
-            if(error.response.data.errInvalidLogin){
-                setSigninError(error.response.data.errInvalidLogin)
-                setIsSigninError(true)
-            }
+            setSigninError(error.response.data)
+            setIsSigninError(true)
         }
     }
 

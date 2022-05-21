@@ -13,12 +13,13 @@ import (
 )
 
 type User struct{
-	mgm.DefaultModel       `bson:",inline"`
-	Username     string    `json:"username"    bson:"username"`
-	Password     string    `json:"password"    bson:"password"`
-	RememberMe   bool      `json:"remember_me" bson:"remember_me"`
-	LastSignin   time.Time `json:"last_signin" bson:"last_signin"`
-	BankAccounts []Account `json:"accounts"    bson:"accounts"`
+	mgm.DefaultModel        `bson:",inline"`
+	Username     string     `json:"username"    bson:"username"`
+	Password     string     `json:"password"    bson:"password"`
+	RememberMe   bool       `json:"remember_me" bson:"remember_me"`
+	LastSignin   time.Time  `json:"last_signin" bson:"last_signin"`
+	BankAccounts []Account  `json:"accounts"    bson:"accounts"`
+	Transfers    []Transfer `json:"transfers"   bson:"transfers"`
 }
 
 const passwordMin int = 6

@@ -22,4 +22,5 @@ func (b *BankAccountRoutes) Init(){
 	b.Router.With(middlewares.Authenticate, middlewares.AuthUser).Delete("/{username}/{accountid}", controllers.DeleteAccount)
 	b.Router.With(middlewares.Authenticate, middlewares.AuthUser).Put("/deposit/{username}/{accountid}", controllers.DepositIntoBankAccount)
 	b.Router.With(middlewares.Authenticate, middlewares.AuthUser).Put("/withdraw/{username}/{accountid}", controllers.WithdrawFromBankAccount)
+	b.Router.With(middlewares.Authenticate, middlewares.AuthUser).Put("/transfer/{username}/{accountFromId}/{accountToId}", controllers.Transfer)
 }
