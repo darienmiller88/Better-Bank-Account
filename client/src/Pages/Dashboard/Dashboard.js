@@ -7,8 +7,8 @@ import DisplayAccounts from '../../Containers/DisplayAccounts/DisplayAccounts'
 import Transfers from '../../Containers/Transfers/Transfers'
 
 export default function Dashboard() {
-    const [displayAccounts, setDisplayAccounts] = useState(false)
-    const [displayTransfers, setDisplayTransfers] = useState(true)
+    const [displayAccounts, setDisplayAccounts] = useState(true)
+    const [displayTransfers, setDisplayTransfers] = useState(false)
     
     return (
         <>

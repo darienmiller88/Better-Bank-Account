@@ -19,13 +19,11 @@ export default function MiniNav({ displayTransfers, displayAccounts }) {
     const toggleTransfers = () => {
         displayTransfers(true)
         displayAccounts(false)
-        toggleMenu()
     }
 
     const toggleAccounts = () => {
         displayTransfers(false)
         displayAccounts(true)
-        toggleMenu()
     }
 
     const signout = async () => {
@@ -67,11 +65,11 @@ export default function MiniNav({ displayTransfers, displayAccounts }) {
                 isPhoneMenuActive
                 ?
                 <div className={styles.phone_menu}>
-                    <div className={styles.link} onClick={toggleAccounts}>
+                    <div className={styles.link} onClick={() => {toggleAccounts(); toggleMenu()}}>
                         Accounts
                         <FaAngleRight className={styles.link_icon} />
                     </div>
-                    <div className={styles.link} onClick={toggleTransfers}>
+                    <div className={styles.link} onClick={() => {toggleTransfers(); toggleMenu()}}>
                         Transfers
                         <FaAngleRight className={styles.link_icon} />
                     </div>
