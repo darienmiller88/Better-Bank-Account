@@ -2,7 +2,6 @@ package routes
 
 import(
 	"github.com/go-chi/chi"
-
 )
 
 type Index struct{

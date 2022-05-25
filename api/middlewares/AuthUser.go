@@ -8,15 +8,17 @@ import (
 	"Better-Bank-Account/api/models"
 
 	"github.com/go-chi/chi"
+	"github.com/golang-jwt/jwt"
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 //Unlike the first auth middleware, this will ensure that the user currently logged in cannot request information
-//from other users using the url params.
+//from other users using the url params. It will also pass along the user model from the database using the 
+//username supplied with the token string.
 func AuthUser(next http.Handler) http.Handler{
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		usernameFromContext  := req.Context().Value("username")
+		usernameFromContext  := req.Context().Value("claims").(jwt.MapClaims)["username"].(string)
 		usernameFromURLParam := chi.URLParam(req, "username")
 		user := models.User{}
 		err  := mgm.Coll(&models.User{}).FindOne(mgm.Ctx(), bson.M{"username": usernameFromURLParam}).Decode(&user)

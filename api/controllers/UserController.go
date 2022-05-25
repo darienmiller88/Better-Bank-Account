@@ -139,7 +139,7 @@ func Signout(res http.ResponseWriter, req *http.Request) {
 		HttpOnly: true,
 		MaxAge:   -1,
 		SameSite: http.SameSiteNoneMode,
-		Secure:   true,
+		//Secure:   true,
 		//Domain:   "better-bank-account-api.herokuapp.com",
 	})
 
@@ -178,9 +178,13 @@ func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
 		Value:    tokenString,
 		Expires:  expiry,
 		SameSite: http.SameSiteNoneMode,
-		Secure:   true,
+		//Secure:   true,
 		//Domain:   "better-bank-account-api.herokuapp.com",
 	})
+}
+
+func refresh(){
+	
 }
 
 func DeleteUser(res http.ResponseWriter, req *http.Request) {
