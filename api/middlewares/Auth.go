@@ -9,6 +9,7 @@ import (
 	// "github.com/go-chi/jwtauth"
 	"github.com/golang-jwt/jwt"
 	"github.com/unrolled/render"
+	"google.golang.org/api/idtoken"
 )
 
 type jsonBody map[string]interface{}
@@ -28,18 +29,25 @@ func Authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		token, err := retrieveTokenFromCookie(cookie.Value)
+		//First check to see if the jwt is a google jwt, or one set by this server.
+		payload, err := idtoken.Validate(context.Background(), cookie.Value, os.Getenv("CLIENT_ID"))
+		
+		//If there is a google token on the front end instead, pass through the google claims.
+		if err == nil{
+			req = req.WithContext(context.WithValue(req.Context(), "google_claims", payload.Claims))
+		}else{//Otherwise, validate a standard token.
+			token, err := retrieveTokenFromCookie(cookie.Value)
 
-		if err != nil {
-			r.JSON(res, http.StatusUnauthorized, jsonBody{"errTokenAuthorization": err.Error()})
-			return
+			if err != nil {
+				r.JSON(res, http.StatusUnauthorized, jsonBody{"errTokenAuthorization": err.Error()})
+				return
+			}
+
+			//Parse the token and pull out the username from the token.
+			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+				req = req.WithContext(context.WithValue(req.Context(), "claims", claims))
+			}
 		}
-
-		//Parse the token and pull out the username from the token.
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			req = req.WithContext(context.WithValue(req.Context(), "claims", claims))
-		}
-
 		next.ServeHTTP(res, req)
 	})
 }

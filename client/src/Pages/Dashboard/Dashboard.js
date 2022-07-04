@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "./Dashboard.module.scss"
 import Footer from "../../Containers/Footer/Footer"
 import logo from "../../img/mdlogo.png"
@@ -9,6 +9,10 @@ import Transfers from '../../Containers/Transfers/Transfers'
 export default function Dashboard() {
     const [displayAccounts, setDisplayAccounts] = useState(true)
     const [displayTransfers, setDisplayTransfers] = useState(false)
+    
+    useEffect(() => {
+        document.title = "Dashboard"
+    }, [])
     
     return (
         <>
@@ -31,7 +35,6 @@ export default function Dashboard() {
                     :
                     null
                 }
-
             </div>
             <Footer />
         </>

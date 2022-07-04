@@ -12,12 +12,12 @@ export default function Landing() {
     const navigate = useNavigate()
 
     // Redirect the user back to the dashboard if they are logged in and try to access the sign in/sign up page.
-    useEffect(() => {
+     useEffect(() => {
         userApi.get("/checkauth")
         .then(() => {
             navigate("/dashboard")
         })
-        .catch(error => console.log("error:", error))
+        .catch(error => console.log("error:", error.response))
     }, [])
     
     return (

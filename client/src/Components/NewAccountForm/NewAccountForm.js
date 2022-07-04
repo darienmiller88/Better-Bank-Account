@@ -10,6 +10,7 @@ export default function NewAccountForm({ closeModal }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const [newAccountError, setNewAccountError] = useState("")
     const [isAccountError, setIsAccountError] = useState(false)
 
@@ -29,8 +30,8 @@ export default function NewAccountForm({ closeModal }) {
         }
 
         try {
-            await accountApi.post(`/${username}`, result)
-            dispatch({type: actionTypes.ADD_ACCOUNT, payload: result})
+            const account = await accountApi.post(`/${googleId ? googleId : username}`, result)
+            dispatch({type: actionTypes.ADD_ACCOUNT, payload: { ...result, ID: account.data}})
             formRef.current.reset()
             setIsAccountError(false)
             closeModal()
@@ -40,7 +41,7 @@ export default function NewAccountForm({ closeModal }) {
                 navigate("/")
                 return
             }
-            console.log("err:", error.response.status);
+            
             setIsAccountError(true)
             setNewAccountError(error.response.data.errDuplicateAccountName)
         }

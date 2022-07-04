@@ -72,13 +72,18 @@ func AddAccount(res http.ResponseWriter, req *http.Request){
 	account.ID        = strings.Replace(uuid.NewString(), "-", "", -1)
 	account.CreatedAt = time.Now()
 	account.UpdatedAt = time.Now()
-	result, _        := mgm.Coll(&models.User{}).UpdateOne(
+
+	fmt.Println("account:", account)
+
+	_, err := mgm.Coll(&models.User{}).UpdateOne(
 		mgm.Ctx(), 
 		bson.M{"username": user.Username}, 
 		bson.M{"$push": bson.M{"accounts": account}},
 	)
 
-	r.JSON(res, http.StatusOK, result)
+	fmt.Println("err:", err)
+
+	r.JSON(res, http.StatusOK, account.ID)
 }
 
 func DeleteAccount(res http.ResponseWriter, req *http.Request){
@@ -91,8 +96,7 @@ func DeleteAccount(res http.ResponseWriter, req *http.Request){
 		return
 	}
 
-	result, _ := mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), 
-		bson.M{"username": user.Username}, 
+	result, _ := mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"username": user.Username}, 
 		bson.M{
 			"$pull": bson.M{ "accounts": bson.M{"id": accountID}},
 		},
@@ -137,7 +141,8 @@ func Transfer(res http.ResponseWriter, req *http.Request){
 
 	// If the transaction amount is greater than the account that is being transferred from, complain.
 	if transactionAmount > user.BankAccounts[indexFrom].AvailableBalance{
-		user.Transfers = append(user.Transfers, createTransfer(false, 
+		user.Transfers = append(user.Transfers, createTransfer(
+			false, 
 			accountFrom.AccountName,
 			accountTo.AccountName,
 			transactionAmount,
@@ -216,10 +221,7 @@ func handleAccountTransactions(transactionType string, res http.ResponseWriter, 
 	account.UpdatedAt = time.Now()
 	user.BankAccounts[accountindex] = account
 
-	mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), 
-		bson.M{"username": user.Username}, 
-		bson.M{"$set": user},
-	)
+	mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"username": user.Username}, bson.M{"$set": user})
 
 	r.JSON(res, http.StatusOK, account)
 }

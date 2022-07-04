@@ -13,6 +13,7 @@ export default function WithdrawAccountForm({ closeModal }) {
     const [withdrawError, setWithdrawError] = useState("")
     const [isWithdrawError, setIsWithdrawError] = useState(false)
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const accounts = useSelector(state => state.accounts)
     const currentAccountName = useSelector(state => state.currentAccountName)
 
@@ -29,7 +30,7 @@ export default function WithdrawAccountForm({ closeModal }) {
         }
 
         try {
-            await accountApi.put(`/withdraw/${username}/${account.ID}`, withdrawAmount.toFixed(2))
+            await accountApi.put(`/withdraw/${googleId ? googleId : username }/${account.ID}`, withdrawAmount.toFixed(2))
             dispatch({type: actionTypes.WITHDRAW, payload: {withdrawAmount, currentAccountName}})
 
             formRef.current.reset()

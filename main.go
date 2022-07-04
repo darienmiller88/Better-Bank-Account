@@ -28,13 +28,13 @@ func main() {
 
 	index.Init()
 	newCors := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", "https://millerbank.netlify.app", "https://millerbanking.herokuapp.com"},
+		AllowedOrigins:   []string{"http://localhost:3000", "https://millerbank.netlify.app", "https://millerbanking.herokuapp.com"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-	}) 
+	})
 	router.Use(newCors.Handler)
 	router.Use(middleware.Logger)
-	router.Mount("/api/v1", index.Router) 
+	router.Mount("/api/v1", index.Router)
 
 	fmt.Println("running on port:", os.Getenv("PORT"))
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), router)

@@ -38,18 +38,32 @@ export const accountsReducer = (state = [], action) => {
 export const userNameReducer = (state = "", action) => {
     switch (action.type) {
         case actionTypes.UPDATE_USERNAME: 
-            state = action.payload
-            return state
+            return action.payload 
+        case actionTypes.CLEAR:
+            return ""
         default:
             return state
     }
 }
 
+export const googleIdReducer = (state = "", action) => {
+    switch (action.type) {
+        case actionTypes.UPDATE_GOOGLE_ID: 
+            return action.payload
+        case actionTypes.CLEAR:
+            return ""
+        default:
+            return state
+    }
+}
+
+
 export const accountNameReducer = (state = "", action) => {
     switch (action.type) {
         case actionTypes.UPDATE_ACCOUNT_NAME: 
-            state = action.payload
-            return state
+            return action.payload
+        case actionTypes.CLEAR:
+            return ""
         default:
             return state
     }

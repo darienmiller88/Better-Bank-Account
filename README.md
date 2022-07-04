@@ -14,6 +14,7 @@
 Full stack application built using Golang and MongoDB in the backend, and React in the frontend. This is an app to reimagine a intro level console bank account program as a full stack web application. Features I aim to add include:
 
  - JWT + Google OAuth2 authentication.
+ - React Redux
 
  There's more to come!
 

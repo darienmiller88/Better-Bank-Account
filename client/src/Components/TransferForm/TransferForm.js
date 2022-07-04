@@ -12,6 +12,7 @@ export default function TransferForm({ closeModal }) {
     const accounts = useSelector(state => state.accounts)
     const accountFromName = useSelector(state => state.currentAccountName)
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const formRef = useRef(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -27,7 +28,7 @@ export default function TransferForm({ closeModal }) {
 
         try {
             dispatch({type: actionTypes.TRANSFER, payload: { accountFromName, accountToName, transferAmount }})
-            await accountApi.put(`/transfer/${username}/${accountFrom.ID}/${accountTo.ID}`, transferAmount) 
+            await accountApi.put(`/transfer/${googleId ? googleId : username}/${accountFrom.ID}/${accountTo.ID}`, transferAmount) 
 
             formRef.current.reset()
             closeModal()
@@ -51,10 +52,10 @@ export default function TransferForm({ closeModal }) {
                 <label>Account to Transfer To: </label>
                 <select name="accountTo" required>
                     {
-                        accounts.map(account => {
+                        accounts.map((account, i) => {
                             return account.account_name !==  accountFromName
                                 ?   
-                                <option >
+                                <option key={i} >
                                     { account.account_name }
                                 </option>
                                 :

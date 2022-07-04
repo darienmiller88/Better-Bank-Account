@@ -10,9 +10,9 @@ export default function FormWrapper() {
             {
                 isSigningIn
                 ?
-                <SigninForm changeToSignup={() => setIsSigningIn(!isSigningIn)}/>
+                <SigninForm changeToSignup={() => setIsSigningIn(!isSigningIn)} />
                 :
-                <SignupForm changeToSignin={() => setIsSigningIn(!isSigningIn)}/>
+                <SignupForm changeToSignin={() => setIsSigningIn(!isSigningIn)} />
             }
         </>
     )

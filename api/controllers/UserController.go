@@ -2,12 +2,15 @@ package controllers
 
 import (
 	"Better-Bank-Account/api/models"
+	"context"
 	"fmt"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/golang-jwt/jwt"
+	"google.golang.org/api/idtoken"
 
 	"github.com/go-chi/jwtauth"
 	chi_render "github.com/go-chi/render"
@@ -15,6 +18,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/unrolled/render.v1"
 )
@@ -24,11 +28,52 @@ type jsonBody map[string]interface{}
 var r *render.Render
 var tokenAuth *jwtauth.JWTAuth
 
-const standardSessionLen   int = 5000 //5000 seconds or 83 minutes
+const standardSessionLen int = 5000       //5000 seconds or 83 minutes
 const persistentSessionLen int = 31536000 //One year cookie for the "remember me" option.
 
 func init() {
 	r = render.New()
+}
+
+func VerifyGoogleAuth(res http.ResponseWriter, req *http.Request) {
+	googleInfo := jsonBody{}
+
+	if err := chi_render.DecodeJSON(req.Body, &googleInfo); err != nil {
+		r.JSON(res, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	googleToken := googleInfo["tokenId"].(string)
+	payload, err := idtoken.Validate(context.Background(), googleToken, os.Getenv("CLIENT_ID"))
+
+	if err != nil {
+		r.JSON(res, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	user := models.User{}
+	err = mgm.Coll(&models.User{}).FindOne(context.Background(), bson.M{"google_username": payload.Claims["name"]}).Decode(&user)
+	
+	//If there were no users found with the google username passed through the payload, insert them into the database.
+	if err == mongo.ErrNoDocuments{
+		user.GoogleUsername = payload.Claims["name"].(string)
+		user.Username       = googleInfo["googleId"].(string);
+		user.LastSignin     = time.Now()
+		user.BankAccounts   = []models.Account{}
+		user.Transfers      = []models.Transfer{}
+		
+		if err := mgm.Coll(&models.User{}).Create(&user); err != nil{
+			r.JSON(res, http.StatusInternalServerError, err) 
+			return
+		}
+	}
+	
+	result, err := mgm.Coll(&models.User{}).UpdateOne(mgm.Ctx(), bson.M{"google_username": payload.Claims["name"]}, bson.M{
+		"$set": bson.M{"last_signin": time.Now()},
+	})
+
+	setCookie(googleToken, int(payload.Expires), res)
+	r.JSON(res, http.StatusOK, result)
 }
 
 func CheckAuth(res http.ResponseWriter, req *http.Request) {
@@ -86,12 +131,15 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 		r.JSON(res, http.StatusBadRequest, jsonBody{
 			"errUsernameTaken": fmt.Sprintf("Username \"%s\" taken! Please choose another one.", user.Username),
 		})
+
 		return
 	}
 
 	//Afterwards, create the new user and add them to the "users" database.
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 12)
 	user.Password = string(hashedPassword)
+	user.BankAccounts = []models.Account{}
+	user.Transfers = []models.Transfer{}
 
 	if err := mgm.Coll(&models.User{}).Create(&user); err != nil {
 		r.JSON(res, http.StatusInternalServerError, err)
@@ -99,7 +147,9 @@ func Signup(res http.ResponseWriter, req *http.Request) {
 	}
 
 	user.LastSignin = time.Now()
-	setCookie(user, res, req)
+	tokenString, expiry := getJwtToken(user)
+
+	setCookie(tokenString, expiry, res)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "sign up successful."})
 }
 
@@ -128,63 +178,50 @@ func Signin(res http.ResponseWriter, req *http.Request) {
 		"$set": bson.M{"last_signin": time.Now()},
 	})
 
-	setCookie(user, res, req)
+
+	tokenString, expiry := getJwtToken(user)
+	setCookie(tokenString, expiry, res)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "Sign in success!"})
 }
 
 func Signout(res http.ResponseWriter, req *http.Request) {
-	http.SetCookie(res, &http.Cookie{
-		Name:     "jwt",
-		Path:     "/",
-		HttpOnly: true,
-		MaxAge:   -1,
-		SameSite: http.SameSiteNoneMode,
-		//Secure:   true,
-		//Domain:   "better-bank-account-api.herokuapp.com",
-	})
-
+	setCookie("", -1, res)
 	r.JSON(res, http.StatusOK, jsonBody{"message": "signing out"})
 }
 
-func setCookie(user models.User, res http.ResponseWriter, req *http.Request) {
+func getJwtToken(user models.User) (string, int){
 	sessionLen := 0
 
 	if user.RememberMe {
 		sessionLen = persistentSessionLen
-	}else{
+	} else {
 		sessionLen = standardSessionLen
 	}
 
 	expiry := time.Now().Add(time.Duration(sessionLen) * time.Second)
-	tokenAuth = jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
-	_, tokenString, _ := tokenAuth.Encode(jsonBody{
+	tokenString, _ := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": user.Username,
-		"exp":      expiry.Unix(),
-	})
+		"exp"     : expiry.Unix(),
+	}).SignedString([]byte(os.Getenv("JWT_SECRET")))
 
-	// var domainName string
+	return tokenString, sessionLen
+}
 
-	// if strings.HasPrefix(req.Host, "localhost"){
-	// 	domainName = "localhost"
-	// }else{
-	// 	domainName = req.Host
-	// }
-
-	//Finally, add a cookie with the jwt as the value
+func setCookie(tokenString string, expiry int, res http.ResponseWriter) {
 	http.SetCookie(res, &http.Cookie{
 		Name:     "jwt",
 		Path:     "/",
 		HttpOnly: true,
 		Value:    tokenString,
-		Expires:  expiry,
-		SameSite: http.SameSiteNoneMode,
+		MaxAge:   expiry,
+		//SameSite: http.SameSiteNoneMode,
 		//Secure:   true,
 		//Domain:   "better-bank-account-api.herokuapp.com",
 	})
 }
 
-func refresh(){
-	
+func refresh() {
+
 }
 
 func DeleteUser(res http.ResponseWriter, req *http.Request) {

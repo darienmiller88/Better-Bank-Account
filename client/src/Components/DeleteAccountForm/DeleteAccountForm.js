@@ -11,13 +11,14 @@ export default function DeleteAccountForm({ closeModal }) {
     const navigate = useNavigate()
     const currentAccountName = useSelector(state => state.currentAccountName)
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const accounts = useSelector(state => state.accounts)
 
     const deleteAccount = async () => {
         const account = accounts.find(account => account.account_name === currentAccountName)
 
         try {
-            await accountApi.delete(`/${username}/${account.ID}`)
+            await accountApi.delete(`/${googleId ? googleId : username}/${account.ID}`)
             dispatch({type: actionTypes.DELETE_ACCOUNT, payload: currentAccountName})
             closeModal() 
         } catch (error) {

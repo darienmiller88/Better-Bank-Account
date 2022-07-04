@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "./Hero.module.scss"
 import Form from '../../Components/RegistrationForms/RegistrationForms'
+import loading from "../../img/loading.gif"
 
 export default function Hero() {
-
     return (
         <div className={styles.hero}>
             <div className={styles.wrapper}>
@@ -25,7 +25,6 @@ export default function Hero() {
                     <Form />
                 </div>
             </div>
-        
         </div>
     )
 }

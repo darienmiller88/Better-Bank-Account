@@ -11,6 +11,7 @@ export default function DepositAccountForm({ closeModal }) {
     const dispatch = useDispatch()    
     const navigate = useNavigate()
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const accounts = useSelector(state => state.accounts)
     const currentAccountName = useSelector(state => state.currentAccountName)
 
@@ -21,7 +22,7 @@ export default function DepositAccountForm({ closeModal }) {
         const account = accounts.find(account => account.account_name === currentAccountName)
 
         try {
-            await accountApi.put(`/deposit/${username}/${account.ID}`, depositAmount.toFixed(2))
+            await accountApi.put(`/deposit/${googleId ? googleId : username }/${account.ID}`, depositAmount.toFixed(2))
             dispatch({type: actionTypes.DEPOSIT, payload: { depositAmount, currentAccountName }})
             formRef.current.reset()
             closeModal() 

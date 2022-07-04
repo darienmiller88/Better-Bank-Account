@@ -21,27 +21,29 @@ export default function DisplayAccounts() {
     const [showTransferModal, setShowTransferModal] = useState(false)
     const [lastSignIn, setLastSignIn] = useState("")
     const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    useEffect( () => {
+    useEffect(() => {
         (async () => {
             try {
-                const response = await userApi.get(`/${username}`)
+                const response = await userApi.get(`/${googleId ? googleId : username}`)
                 const formatDate = new Date(response.data.last_signin)
 
                 dispatch({type: actionTypes.CLEAR_ACCOUNTS})
-                dispatch({type: actionTypes.UPDATE_USERNAME, payload: response.data.username})
+                dispatch({type: actionTypes.UPDATE_USERNAME, payload: googleId ? response.data.google_username : response.data.username})
+                dispatch({type: actionTypes.UPDATE_GOOGLE_ID, payload: googleId ? response.data.username : ""})
                 response.data.accounts.forEach(account => {
                     dispatch({type: actionTypes.ADD_ACCOUNT, payload: account})
                 })
                 setLastSignIn(formatDate)
             } catch (error) {
-                navigate("/")
                 console.log("err:", error.response.data);
+                navigate("/")   
             }
         })();
-    }, [dispatch, navigate, username])
+    }, [])
 
     const openModal = (setModalShow) => {
         document.querySelector("body").style.overflow = "hidden"

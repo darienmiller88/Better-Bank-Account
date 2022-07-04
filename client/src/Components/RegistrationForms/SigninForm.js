@@ -1,19 +1,35 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import styles from "./RegistrationForms.module.scss"
-import googleicon from "../../img/google_icon-nobg.png"
 import { userApi } from "../API/API"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
-
+import { gapi } from "gapi-script"
+import { GoogleLogout } from "react-google-login"
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton';
+import loading from "../../img/loading.gif"
 
 export default function SigninForm({ changeToSignup }) {
     const signinFormRef = useRef(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const username = useSelector(state => state.username)
+    const googleId = useSelector(state => state.googleId)
     const [isSigninError, setIsSigninError] = useState(false)
-    const [signinError, setSigninError] = useState(false)
+    const [signinError, setSigninError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
+    useEffect(() => {
+        const start = () => {
+            gapi.client.init({
+                clientId: process.env.REACT_APP_CLIENT_ID,
+                scope: ""
+            })
+        }
+
+        gapi.load("client:auth2", start)
+    })
+    
     const signInPostRequest = async (e) => {
         e.preventDefault()
 
@@ -28,17 +44,26 @@ export default function SigninForm({ changeToSignup }) {
         }
 
         try {
+            setIsLoading(true)
             await userApi.post("/signin", data)
-            dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})                
+            setIsLoading(false)
+            
             signinFormRef.current.reset()   
+            dispatch({type: actionTypes.UPDATE_USERNAME, payload: username})   
             navigate("/dashboard")     
         } catch (error) {
+            console.log("response:", error.response.data);
+            setIsLoading(false)
             setSigninError(error.response.data)
             setIsSigninError(true)
         }
     }
 
     return(
+        isLoading
+        ?
+        <img src={loading} alt="loading"/>
+        :
         <form className={`${styles.registration} ${styles.signin}`} ref={signinFormRef} onSubmit={signInPostRequest}>
             <div className={styles.title}>
                 Sign in
@@ -70,12 +95,20 @@ export default function SigninForm({ changeToSignup }) {
                 <button className={styles.submit_form_button} onClick={signInPostRequest}>
                     Sign in
                 </button>
-                <a className={styles.google_button} href="/">
-                    <div className={styles.google_icon_wrapper}>
-                        <img src={googleicon} alt='icon' />
-                    </div>
-                    <div className={styles.button_text}>Sign in with google</div>
-                </a>
+                <GoogleLoginButton toggleGif={() => setIsLoading(!isLoading)}/>
+                {/* <GoogleLogout 
+                    clientId={process.env.REACT_APP_CLIENT_ID}
+                    buttonText="Sign out"
+                    onLogoutSuccess={() => {
+                        console.log("log out success!")
+                        navigate("/")
+                    }}
+                    render={renderProps => {
+                        return (
+                            <button onClick={renderProps.onClick}>Sign out</button>
+                        )
+                    }}
+                /> */}
             </div>
             <hr style={{width: "80%", textAlign: "center"}}/>
             <div className={styles.create_account}>

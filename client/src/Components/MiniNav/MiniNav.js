@@ -6,6 +6,7 @@ import { userApi } from "../API/API"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { actionTypes } from "../../state/reducers/actionTypes"
+import { GoogleLogout } from "react-google-login"
 
 export default function MiniNav({ displayTransfers, displayAccounts }) {
     const navigate = useNavigate()
@@ -28,8 +29,8 @@ export default function MiniNav({ displayTransfers, displayAccounts }) {
 
     const signout = async () => {
         await userApi.post("/signout")
-        dispatch({type: actionTypes.CLEAR_ACCOUNTS})
-        dispatch({type: actionTypes.CLEAR_USERNAME})
+
+        dispatch({type: actionTypes.CLEAR})
         navigate("/")
     }
 
@@ -56,9 +57,18 @@ export default function MiniNav({ displayTransfers, displayAccounts }) {
                     </div>
                 </div>
                 
-                <div className={styles.signout} onClick={signout}>
-                    Sign out
-                </div>
+                <GoogleLogout 
+                    clientId={process.env.REACT_APP_CLIENT_ID}
+                    onLogoutSuccess={signout}
+                    render={renderProps => {
+                        return (
+                            <div className={styles.signout} onClick={renderProps.onClick}>
+                                Sign out
+                            </div>
+                        )
+                    }}
+                />
+                
             </div>
 
             {
