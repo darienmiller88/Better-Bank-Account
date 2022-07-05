@@ -30,8 +30,6 @@ export default function SigninForm({ changeToSignup }) {
         gapi.load("client:auth2", start)
     })
     
-    console.log("client id:", process.env.REACT_APP_CLIENT_ID);
-
     const signInPostRequest = async (e) => {
         e.preventDefault()
 
